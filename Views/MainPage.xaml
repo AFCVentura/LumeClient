@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.MainPage">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+
+        <!-- TOPO -->
+        <Grid BackgroundColor="Black" Padding="10">
+            <Label Text="LUME"
+               TextColor="Yellow"
+               FontSize="32"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"/>
+        </Grid>
+
+        <!-- "DEU MATCH!" + Carrossel -->
+        <StackLayout Grid.Row="1" Padding="10,10,10,0">
+            <Label Text="DEU MATCH!!"
+               TextColor="Yellow"
+               FontAttributes="Bold"
+               FontSize="24"
+               HorizontalOptions="Center"/>
+
+            <!-- Carrossel de filmes -->
+            <ScrollView Orientation="Horizontal" Margin="0,10">
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Image Source="filme1.jpg" WidthRequest="100" HeightRequest="150"/>
+                    <Image Source="filme2.jpg" WidthRequest="100" HeightRequest="150"/>
+                    <Image Source="filme3.jpg" WidthRequest="100" HeightRequest="150"/>
+                    <Image Source="filme4.jpg" WidthRequest="100" HeightRequest="150"/>
+                    <Image Source="filme5.jpg" WidthRequest="100" HeightRequest="150"/>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+
+        <!-- DETALHES DO FILME -->
+        <StackLayout Grid.Row="2" Padding="20" Spacing="10">
+            <Label Text="Matrix"
+               FontSize="20"
+               FontAttributes="Bold"/>
+
+            <Label Text="1999 | 2h 16min | Ação, Ficção Científica"
+               FontSize="14"
+               TextColor="Gray"/>
+
+            <Label Text="Direção: Lilly Wachowski, Lana Wachowski"
+               FontSize="12"
+               TextColor="Black"/>
+
+            <Label Text="Elenco: Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss"
+               FontSize="12"
+               TextColor="Black"/>
+
+            <Label Text="O jovem programador Thomas Anderson é atormentado por estranhos pesadelos em que está sempre conectado por cabos a um imenso sistema de computa…"
+               FontSize="14"
+               LineBreakMode="TailTruncation"/>
+
+            <!-- Botão com porcentagem -->
+            <Button Text="🎬 ESSE FILME COMBINA 94% COM SEU PERFIL"
+                BackgroundColor="Black"
+                TextColor="Yellow"
+                FontAttributes="Bold"
+                CornerRadius="20"
+                HeightRequest="50"
+                HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <!-- MENU INFERIOR -->
+        <Grid Grid.Row="3" Padding="10" BackgroundColor="Black"
+          ColumnDefinitions="*,*,*">
+            <Image Source="icone_engrenagem.png"
+               HeightRequest="30" WidthRequest="30"
+               HorizontalOptions="Center"/>
+            <Image Source="icone_lampada.png"
+               HeightRequest="60" WidthRequest="60"
+               HorizontalOptions="Center" Grid.Column="1"/>
+            <Image Source="icone_coracao.png"
+               HeightRequest="30" WidthRequest="30"
+               HorizontalOptions="Center" Grid.Column="2"/>
+        </Grid>
+    </Grid>
+
+
+</ContentPage>
