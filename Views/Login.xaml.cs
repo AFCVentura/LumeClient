@@ -13,7 +13,40 @@ public partial class Login : ContentPage
     }
     private async void OnLoginClicked(object sender, EventArgs e)
     {
-        // Aqui voc� pode colocar valida��o de email/senha depois
-        await Navigation.PushAsync(new Perguntas());
+        // Futuramente precisamos trocar isso para enviar pro backend
+        try
+        {
+            // Lista de usuários mockados de teste
+            Dictionary<string, string> usuarios = new Dictionary<string, string>
+            {
+                { "email1", "senha1" },
+                { "email2", "senha2" },
+                { "email3", "senha3" }
+            };
+
+            // Pegando email e senha digitados na tela
+            string emailDigitado = txt_email.Text;
+            string senhaDigitada = txt_senha.Text;
+
+            if (usuarios.Any(u => u.Key == emailDigitado && u.Value == senhaDigitada))
+            {
+                await SecureStorage.Default.SetAsync("email_logado", emailDigitado);
+                await SecureStorage.Default.SetAsync("senha_logada", senhaDigitada);
+
+                // Se o usuário existe, navega para a página inicial
+                await Navigation.PushAsync(new MainPage());
+            }
+            else
+            {
+                // Se o usuário não existe, lança uma exceção que vai pro catch
+                throw new Exception("Usuário ou senha inválidos.");
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", $"Ocorreu um erro: {ex.Message}", "OK");
+        }
     }
 }

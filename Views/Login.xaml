@@ -8,7 +8,7 @@
             <StackLayout VerticalOptions="Center" Spacing="8">
 
                 <!-- Logo LUME -->
-                <Image Source="lume_branco.png.png"
+                <Image Source="lume_branco.png"
                    HeightRequest="270"
                    HorizontalOptions="Center"
                    Aspect="AspectFit"/>
@@ -26,7 +26,8 @@
 
                 <!-- Campo de Email -->
                 <Border Stroke="Yellow" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="10,0">
-                    <Entry Placeholder="Email"
+                    <Entry x:Name="txt_email"
+                       Placeholder="Email"
                        BackgroundColor="Transparent"
                        TextColor="Black"
                        PlaceholderColor="Gray"
@@ -39,7 +40,8 @@
                     BackgroundColor="White"
                     StrokeShape="RoundRectangle 8"
                     Padding="10,0">
-                    <Entry Placeholder="Senha"
+                    <Entry x:Name="txt_senha"
+                       Placeholder="Senha"
                        BackgroundColor="Transparent"
                        TextColor="Black"
                        PlaceholderColor="Gray"
@@ -47,13 +49,14 @@
                 </Border>
 
                 <!-- Botão de Login -->
-                <Button Text="Login"
+                <Button x:Name="btn_login"
+                    Text="Login"
                     BackgroundColor="Yellow"
                     TextColor="Black"
                     FontAttributes="Bold"
                     HeightRequest="50"
                     CornerRadius="10"
-                   Clicked="OnLoginClicked"/>
+                    Clicked="OnLoginClicked"/>
 
                 <!-- Esqueceu a senha? -->
                 <Label Text="Esqueceu sua senha?"
