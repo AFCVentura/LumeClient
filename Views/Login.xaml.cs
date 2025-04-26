@@ -49,4 +49,14 @@ public partial class Login : ContentPage
             await DisplayAlert("Erro", $"Ocorreu um erro: {ex.Message}", "OK");
         }
     }
+
+    private async void OnEsqueceuSenhaTap(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new EsqueceuSenha());
+    }
+
+    private async void OnCriarContaTap(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new Registro());
+    }
 }

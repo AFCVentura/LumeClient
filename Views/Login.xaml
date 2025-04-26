@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.Login"
+             BackgroundColor="White"
              Title="Login">
     <ScrollView>
         <Grid Padding="10">
@@ -14,18 +15,17 @@
                    Aspect="AspectFit"/>
 
                 <!-- Slogan -->
-                <Label Text="      O FILME CERTO, 
-                              NO MOMENTO CERTO"
-                   FontSize="17"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="Black"
-                 
-                   Padding="5"
-                   Margin="0,10"/>
+                <Label Text="O FILME CERTO&#10;NO MOMENTO CERTO"
+                    FontSize="17"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    TextColor="Black"
+                    Padding="5"
+                    Margin="0,10"/>
 
                 <!-- Campo de Email -->
-                <Border Stroke="Yellow" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="10,0">
+                <Border Stroke="#FBD206" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="10,0">
                     <Entry x:Name="txt_email"
                        Placeholder="Email"
                        BackgroundColor="Transparent"
@@ -35,7 +35,7 @@
                 </Border>
 
                 <!-- Campo de Senha -->
-                <Border Stroke="Yellow"
+                <Border Stroke="#FBD206"
                     StrokeThickness="2"
                     BackgroundColor="White"
                     StrokeShape="RoundRectangle 8"
@@ -51,7 +51,7 @@
                 <!-- Botão de Login -->
                 <Button x:Name="btn_login"
                     Text="Login"
-                    BackgroundColor="Yellow"
+                    BackgroundColor="#FBD206"
                     TextColor="Black"
                     FontAttributes="Bold"
                     HeightRequest="50"
@@ -62,13 +62,21 @@
                 <Label Text="Esqueceu sua senha?"
                    FontSize="14"
                    TextColor="Black"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEsqueceuSenhaTap" />
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <!-- Criar Conta -->
                 <Label Text="Novo por aqui? Faça sua conta"
                    FontSize="14"
                    TextColor="Black"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCriarContaTap" />
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <!-- Botão Google com Border -->
                 <Border BackgroundColor="Black"
@@ -88,7 +96,7 @@
                                VerticalOptions="Center"/>
                             <Label Text="  Continue with Google"
                                VerticalOptions="Center"
-                               TextColor="Yellow"
+                               TextColor="#FBD206"
                                FontAttributes="Bold"/>
                         </StackLayout>
                     </Grid>
