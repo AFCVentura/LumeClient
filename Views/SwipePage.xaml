@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:LumeClient.Views"
+             x:Class="LumeClient.Views.SwipePage"
+             Title="SwipePage"
+             BackgroundColor="WhiteSmoke">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        
+        <StackLayout Padding="20" HorizontalOptions="Center">
+            <Image Source="lume_logo.png" HeightRequest="40" />
+        </StackLayout>
+
+        <!-- Conteúdo do Filme -->
+        <Grid Grid.Row="1" Padding="20">
+            <Frame x:Name="CardFrame"
+                BackgroundColor="Black"
+                CornerRadius="20"
+                HasShadow="True"
+                VerticalOptions="Center"
+                HeightRequest="400"
+                WidthRequest="300"
+                HorizontalOptions="Center">      
+                <Frame.GestureRecognizers>
+                    
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                </Frame.GestureRecognizers>
+                <Frame.GestureRecognizers>
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                </Frame.GestureRecognizers>
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image x:Name="MovieImage" HeightRequest="200" WidthRequest="150" Source="filme3.jpg" />
+                    <Label x:Name="MovieTitle"
+                           Text="Título do filme"
+                           TextColor="White"
+                           FontSize="16"
+                           HorizontalTextAlignment="Center" />
+                    <Label x:Name="MovieDescription"
+                           Text="Sinopse aqui..."
+                           TextColor="White"
+                           FontSize="14"
+                           HorizontalTextAlignment="Center"
+                           Margin="10" />
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+        <!-- Menu Inferior -->
+        <Grid Grid.Row="2">
+            <views:MenuInferior />
+        </Grid>
+
+    </Grid>
+</ContentPage>

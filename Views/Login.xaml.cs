@@ -14,6 +14,6 @@ public partial class Login : ContentPage
     private async void OnLoginClicked(object sender, EventArgs e)
     {
         // Aqui voc� pode colocar valida��o de email/senha depois
-        await Navigation.PushAsync(new Perguntas());
+        await Navigation.PushAsync(new PerguntasPage());
     }
 }

@@ -57,6 +57,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Resources\Images\NovaPasta\**" />
+	  <Compile Remove="Resources\Images\NovaPasta\**" />
+	  <EmbeddedResource Remove="Resources\Images\NovaPasta\**" />
+	  <MauiCss Remove="Resources\Images\NovaPasta\**" />
+	  <MauiImage Remove="Resources\Images\NovaPasta\**" />
+	  <MauiXaml Remove="Resources\Images\NovaPasta\**" />
+	  <None Remove="Resources\Images\NovaPasta\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
@@ -66,7 +76,13 @@
 	  <MauiXaml Update="Views\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\MenuInferior.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Perguntas.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SwipePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

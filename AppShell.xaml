@@ -7,6 +7,19 @@
     Shell.FlyoutBehavior="Disabled"
     Title="LumeClient">
 
+    <ShellContent Title="Descobrir" ContentTemplate="{DataTemplate local:SwipePage}" />
+
+    <ShellContent
+        Title=" "
+        ContentTemplate="{DataTemplate local:PerguntasPage}"
+        Route="PerguntasPage" />
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:Login}"
+        Route="Login" />
+
+
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"

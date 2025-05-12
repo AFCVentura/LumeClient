@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
+
 namespace LumeClient;
 
 public static class MauiProgram
