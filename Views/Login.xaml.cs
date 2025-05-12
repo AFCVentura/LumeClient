@@ -1,3 +1,7 @@
+using LumeClient.Models;
+using System.Text;
+using System.Text.Json;
+
 namespace LumeClient.Views;
 
 public partial class Login : ContentPage
@@ -13,36 +17,42 @@ public partial class Login : ContentPage
     }
     private async void OnLoginClicked(object sender, EventArgs e)
     {
-        // Futuramente precisamos trocar isso para enviar pro backend
         try
         {
-            // Lista de usuários mockados de teste
-            Dictionary<string, string> usuarios = new Dictionary<string, string>
-            {
-                { "email1", "senha1" },
-                { "email2", "senha2" },
-                { "email3", "senha3" }
-            };
-
-            // Pegando email e senha digitados na tela
             string emailDigitado = txt_email.Text;
             string senhaDigitada = txt_senha.Text;
 
-            if (usuarios.Any(u => u.Key == emailDigitado && u.Value == senhaDigitada))
+            var loginData = new
             {
-                await SecureStorage.Default.SetAsync("email_logado", emailDigitado);
-                await SecureStorage.Default.SetAsync("senha_logada", senhaDigitada);
+                email = emailDigitado,
+                password = senhaDigitada
+            };
 
-                // Se o usuário existe, navega para a página inicial
-                await Navigation.PushAsync(new MainPage());
+            var httpClient = new HttpClient();
+            var json = JsonSerializer.Serialize(loginData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Troque para o endpoint correto se estiver diferente
+            var response = await httpClient.PostAsync("https://localhost:7141/api/v1/auth/login", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                if (loginResponse != null)
+                {
+                    await SecureStorage.Default.SetAsync("access_token", loginResponse.AccessToken);
+                    await Navigation.PushAsync(new MainPage());
+                }
             }
             else
             {
-                // Se o usuário não existe, lança uma exceção que vai pro catch
-                throw new Exception("Usuário ou senha inválidos.");
+                await DisplayAlert("Erro", "Usuário ou senha inválidos.", "OK");
             }
-
-
         }
         catch (Exception ex)
         {
