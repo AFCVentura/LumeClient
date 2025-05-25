@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.EsqueciSenha"
+             Title="EsqueciSenha"
+             BackgroundColor="Black">
+
+    <VerticalStackLayout Padding="30" Spacing="20">
+
+        <Image Source="lume_preto.png" HeightRequest="80" HorizontalOptions="Center"/>
+
+        <Label Text="Esqueceu a senha?" 
+               FontSize="24" 
+               TextColor="Yellow" 
+               HorizontalOptions="Center"/>
+
+        <Entry x:Name="emailEntry"
+               Placeholder="Digite seu e-mail"
+               PlaceholderColor="Gray"
+               TextColor="White"
+               BackgroundColor="#1C1C1C"/>
+
+        <Button Text="Continuar"
+                BackgroundColor="Yellow"
+                TextColor="Black"
+                Clicked="OnContinuarClicked"/>
+
+        <Button Text="Voltar"
+                BackgroundColor="Transparent"
+                TextColor="Yellow"
+                Clicked="OnVoltarClicked"/>
+
+    </VerticalStackLayout>
+</ContentPage>

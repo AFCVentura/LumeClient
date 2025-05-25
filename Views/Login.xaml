@@ -57,15 +57,23 @@
 
                 <!-- Esqueceu a senha? -->
                 <Label Text="Esqueceu sua senha?"
-                   FontSize="14"
-                   TextColor="Black"
-                   HorizontalOptions="Center"/>
+                FontSize="14"
+                TextColor="Black"
+                HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEsqueciSenhaTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <!-- Criar Conta -->
                 <Label Text="Novo por aqui? Faça sua conta"
-                   FontSize="14"
-                   TextColor="Black"
-                   HorizontalOptions="Center"/>
+                FontSize="14"
+                TextColor="Black"
+                HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCriarContaTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <!-- Botão Google com Border -->
                 <Border BackgroundColor="Black"

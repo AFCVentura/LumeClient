@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.TelaCadastro"
+             Title="TelaCadastro">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+            <Image Source="lume_preto.png" HeightRequest="100" HorizontalOptions="Center"/>
+
+            <Label Text="Cadastro" FontSize="28" HorizontalOptions="Center"/>
+
+            <Entry Placeholder="Nome"/>
+            <Entry Placeholder="Email"/>
+            <Entry Placeholder="Senha" IsPassword="True"/>
+            <Entry Placeholder="Confirmar Senha" IsPassword="True"/>
+
+            <CheckBox x:Name="chkMaiorIdade"/>
+            <Label Text="Sou maior de 18 anos"/>
+
+            <HorizontalStackLayout>
+                <CheckBox x:Name="chkAceitoTermos"/>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Aceito os " />
+                            <Span Text="Termos de Uso" TextDecorations="Underline" TextColor="#FFD700" GestureRecognizers="{TapGestureRecognizer Tapped='AbrirTermos'}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </HorizontalStackLayout>
+
+            <Button Text="Cadastrar" Clicked="Cadastrar_Clicked"/>
+            <Button Text="Voltar" Clicked="Voltar_Clicked"/>
+        </VerticalStackLayout>
+    </ContentPage>

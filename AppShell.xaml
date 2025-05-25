@@ -7,22 +7,61 @@
     Shell.FlyoutBehavior="Disabled"
     Title="LumeClient">
 
-    <ShellContent Title="Descobrir" ContentTemplate="{DataTemplate local:SwipePage}" />
-
-    <ShellContent
-        Title=" "
-        ContentTemplate="{DataTemplate local:PerguntasPage}"
-        Route="PerguntasPage" />
-
+    <!-- Tela de Login -->
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate local:Login}"
-        Route="Login" />
+        Route="Login"/>
 
 
+    <!-- Página de Swipe (Tela principal de descobrir filmes"Tinder") -->
+    <ShellContent
+        Title="Descobrir"
+        ContentTemplate="{DataTemplate local:SwipePage}"
+        Route="SwipePage"/>
+
+    <!-- Tela de Perguntas iniciais -->
+    <ShellContent
+        Title="Perguntas"
+        ContentTemplate="{DataTemplate local:Perguntas}"
+        Route="Perguntas"/>
+
+    <!-- Tela de Humor do Dia -->
+    <ShellContent
+        Title="Humor do Dia"
+        ContentTemplate="{DataTemplate local:TelaHumorDia}"
+        Route="TelaHumorDia"/>
+
+
+    <!-- Tela Principal -->
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"/>
+
+    <!-- Tela de Configurações -->
+    <ShellContent
+        Title="Configurações"
+        ContentTemplate="{DataTemplate local:TelaConfig}"
+        Route="TelaConfig"/>
+
+    <!-- Tela de Cadastro -->
+    <ShellContent
+        Title="Cadastro"
+        ContentTemplate="{DataTemplate local:TelaCadastro}"
+        Route="TelaCadastro"/>
+
+    <!-- Tela Esqueci a Senha -->
+    <ShellContent
+        Title="Esqueci a Senha"
+        ContentTemplate="{DataTemplate local:TelaEsqueciSenha}"
+        Route="TelaEsqueciSenha"/>
+
+    <!-- Tela Redefinir Senha -->
+    <ShellContent
+        Title="Redefinir Senha"
+        ContentTemplate="{DataTemplate local:TelaRedefinirSenha}"
+        Route="TelaRedefinirSenha"/>
 
 </Shell>
+
