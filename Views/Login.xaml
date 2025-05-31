@@ -25,7 +25,7 @@
                     Margin="0,10"/>
 
                 <!-- Campo de Email -->
-                <Border Stroke="#FBD206" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="10,0">
+                <Border Stroke="#FBD206" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8">
                     <Entry x:Name="txt_email"
                        Placeholder="Email"
                        BackgroundColor="Transparent"
@@ -38,8 +38,7 @@
                 <Border Stroke="#FBD206"
                     StrokeThickness="2"
                     BackgroundColor="White"
-                    StrokeShape="RoundRectangle 8"
-                    Padding="10,0">
+                    StrokeShape="RoundRectangle 8">
                     <Entry x:Name="txt_senha"
                        Placeholder="Senha"
                        BackgroundColor="Transparent"
@@ -77,30 +76,6 @@
                         <TapGestureRecognizer Tapped="OnCriarContaTap" />
                     </Label.GestureRecognizers>
                 </Label>
-
-                <!-- Botão Google com Border -->
-                <Border BackgroundColor="Black"
-                    StrokeShape="RoundRectangle 10"
-                    HeightRequest="50">
-                    <Grid>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnGoogleLoginTapped"/>
-                        </Grid.GestureRecognizers>
-                        <StackLayout Orientation="Horizontal"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"
-                                 Padding="0">
-                            <Image Source="logo_google.png"
-                               HeightRequest="50"
-                               WidthRequest="50"
-                               VerticalOptions="Center"/>
-                            <Label Text="  Continue with Google"
-                               VerticalOptions="Center"
-                               TextColor="#FBD206"
-                               FontAttributes="Bold"/>
-                        </StackLayout>
-                    </Grid>
-                </Border>
 
             </StackLayout>
         </Grid>

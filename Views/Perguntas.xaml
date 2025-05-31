@@ -5,29 +5,31 @@
              Title=""
              BackgroundColor="Black">
 
-    <StackLayout Padding="20">
+    <ScrollView>
+        <StackLayout Padding="20">
 
-        <Image Source="lume_logo.png"
-               HeightRequest="100"
-               HorizontalOptions="Center" />
+            <Image Source="lume_logo.png"
+                   HeightRequest="100"
+                   HorizontalOptions="Center" />
 
-        <Label x:Name="PerguntaLabel"
-               TextColor="Yellow"
-               FontSize="20"
-               FontAttributes="Bold"
-               Margin="0,20,0,20" />
+            <Label x:Name="PerguntaLabel"
+                   TextColor="Yellow"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   Margin="0,20,0,20" />
 
-        <CollectionView x:Name="OpcoesCollection"
-                        SelectionMode="Single"
-                        SelectionChanged="OpcoesCollection_SelectionChanged">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="Yellow" CornerRadius="12" Padding="10" Margin="0,5" BackgroundColor="Black">
-                        <Label Text="{Binding .}" TextColor="LightGoldenrodYellow" />
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+            <CollectionView x:Name="OpcoesCollection"
+                            SelectionMode="Single"
+                            SelectionChanged="OpcoesCollection_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Yellow" CornerRadius="12" Padding="10" Margin="0,5" BackgroundColor="Black">
+                            <Label Text="{Binding .}" TextColor="LightGoldenrodYellow" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
 
 </ContentPage>

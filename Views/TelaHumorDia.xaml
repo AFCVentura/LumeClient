@@ -5,22 +5,24 @@
             BackgroundColor="Black"
             Title="">
 
-    <VerticalStackLayout Padding="30" Spacing="25">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="25">
 
-        <Image Source="lume_preto.png" HeightRequest="80" HorizontalOptions="Center"/>
+            <Image Source="lume_preto.png" HeightRequest="80" HorizontalOptions="Center"/>
 
-        <Label x:Name="PerguntaLabel"
-               FontSize="22"
-               TextColor="Yellow"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               HorizontalTextAlignment="Center"
-               Text="PERGUNTA"/>
+            <Label x:Name="PerguntaLabel"
+                   FontSize="22"
+                   TextColor="Yellow"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Text="PERGUNTA"/>
 
-        <VerticalStackLayout x:Name="OpcoesLayout" Spacing="15">
+            <VerticalStackLayout x:Name="OpcoesLayout" Spacing="15">
             
-        </VerticalStackLayout>
+            </VerticalStackLayout>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

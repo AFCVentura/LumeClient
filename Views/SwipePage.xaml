@@ -9,8 +9,10 @@
     <Grid RowDefinitions="Auto,*,Auto">
 
         
-        <StackLayout Padding="20" HorizontalOptions="Center">
-            <Image Source="lume_logo.png" HeightRequest="40" />
+        <StackLayout Padding="20" VerticalOptions="Center">
+            <Image Source="lume_logo.png" 
+                   HeightRequest="40"
+                   Aspect="AspectFit"/>
         </StackLayout>
 
         <!-- Conteúdo do Filme -->
@@ -23,13 +25,11 @@
                 HeightRequest="400"
                 WidthRequest="300"
                 HorizontalOptions="Center">      
-                <Frame.GestureRecognizers>
-                    
-                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
-                </Frame.GestureRecognizers>
+
                 <Frame.GestureRecognizers>
                     <PanGestureRecognizer PanUpdated="OnPanUpdated" />
                 </Frame.GestureRecognizers>
+                
                 <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                     <Image x:Name="MovieImage" HeightRequest="200" WidthRequest="150" Source="filme3.jpg" />
                     <Label x:Name="MovieTitle"

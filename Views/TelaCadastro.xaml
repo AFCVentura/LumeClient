@@ -5,31 +5,37 @@
              Title="TelaCadastro">
 
     <VerticalStackLayout Padding="20" Spacing="15">
-            <Image Source="lume_preto.png" HeightRequest="100" HorizontalOptions="Center"/>
 
-            <Label Text="Cadastro" FontSize="28" HorizontalOptions="Center"/>
+        <Image Source="lume_preto.png" HeightRequest="100" HorizontalOptions="Center"/>
+        <Label Text="Cadastro" FontSize="28" HorizontalOptions="Center"/>
 
-            <Entry Placeholder="Nome"/>
-            <Entry Placeholder="Email"/>
-            <Entry Placeholder="Senha" IsPassword="True"/>
-            <Entry Placeholder="Confirmar Senha" IsPassword="True"/>
+        <Entry Placeholder="Nome"/>
+        <Entry Placeholder="Email"/>
+        <Entry Placeholder="Senha" IsPassword="True"/>
+        <Entry Placeholder="Confirmar Senha" IsPassword="True"/>
 
-            <CheckBox x:Name="chkMaiorIdade"/>
-            <Label Text="Sou maior de 18 anos"/>
+        <HorizontalStackLayout VerticalOptions="Center">
+            <CheckBox x:Name="chkMaiorIdade" VerticalOptions="Center"/>
+            <Label Text="Sou maior de 18 anos" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox x:Name="chkAceitoTermos"/>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Aceito os " />
-                            <Span Text="Termos de Uso" TextDecorations="Underline" TextColor="#FFD700" GestureRecognizers="{TapGestureRecognizer Tapped='AbrirTermos'}"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </HorizontalStackLayout>
+        <HorizontalStackLayout VerticalOptions="Center">
+            <CheckBox x:Name="chkAceitoTermos" VerticalOptions="Center"/>
+            <Label VerticalOptions="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Aceito os " />
+                        <Span Text="Termos de Uso"
+                      TextDecorations="Underline"
+                      TextColor="#FFD700">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AbrirTermos"/>
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </HorizontalStackLayout>
 
-            <Button Text="Cadastrar" Clicked="Cadastrar_Clicked"/>
-            <Button Text="Voltar" Clicked="Voltar_Clicked"/>
-        </VerticalStackLayout>
-    </ContentPage>
+    </VerticalStackLayout>
+</ContentPage>

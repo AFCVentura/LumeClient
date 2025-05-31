@@ -8,5 +8,7 @@
             Text="Esqueceu sua senha né, não vou contar hihi :-3"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        
+
     </VerticalStackLayout>
 </ContentPage>
