@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.TelaConfig"
+             Title="TelaConfig"
+             BackgroundColor="White">
+
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Topo com logo e slogan -->
+            <StackLayout BackgroundColor="Black" Padding="15">
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Image Source="lume_preto.png" WidthRequest="30" HeightRequest="30"/>
+                    <Label Text="O FILME CERTO, NO MOMENTO CERTO"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="Yellow"/>
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Título e opções -->
+            <StackLayout Padding="25" Spacing="25">
+                <Label Text="CONFIGURAÇÕES"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="Yellow"
+                   HorizontalOptions="Center">
+                    <Label.Shadow>
+                        <Shadow Brush="Black" Offset="2,2" Opacity="0.8"/>
+                    </Label.Shadow>
+                </Label>
+
+                <StackLayout Spacing="20">
+                    <Label Text="• Alterar nome do usuário ✏️" FontSize="16" TextColor="Black"/>
+                    <Label Text="• Alterar Senha ✏️" FontSize="16" TextColor="Black"/>
+                    <Label Text="• Excluir conta ✏️" FontSize="16" TextColor="Black"/>
+                    <Label Text="• Sair ✏️" FontSize="16" TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Rodapé com botão voltar -->
+            <StackLayout BackgroundColor="Black" Padding="15" HorizontalOptions="Center">
+                <Label Text="← Voltar" FontSize="16" TextColor="Yellow" />
+            </StackLayout>
+        </Grid>
+    </ContentPage>
