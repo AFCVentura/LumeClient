@@ -1,17 +1,27 @@
 using System;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 
 namespace LumeClient.Views
 {
     public partial class TelaCadastro : ContentPage
     {
+
         public TelaCadastro()
         {
             InitializeComponent();
+
         }
 
-        private async void Cadastrar_Clicked(object sender, EventArgs e)
+        private async void OnCadastroClicked(object sender, EventArgs e)
         {
+            string email = emailEntry?.Text?.Trim();
+            string senha = senhaEntry?.Text;
+            string confirmarSenha = confirmarSenhaEntry?.Text;
+
             if (!chkMaiorIdade.IsChecked)
             {
                 await DisplayAlert("Atenção", "É necessário confirmar que você é maior de 18 anos.", "OK");
@@ -24,10 +34,48 @@ namespace LumeClient.Views
                 return;
             }
 
-            // Aqui você pode adicionar validações dos campos, como email, senha, etc.
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha) || string.IsNullOrWhiteSpace(confirmarSenha))
+            {
+                await DisplayAlert("Erro", "Preencha todos os campos.", "OK");
+                return;
+            }
 
-            await DisplayAlert("Sucesso", "Cadastro realizado com sucesso!", "OK");
-            await Shell.Current.GoToAsync("//MainPage");
+            if (senha != confirmarSenha)
+            {
+                await DisplayAlert("Erro", "As senhas não coincidem.", "OK");
+                return;
+            }
+
+            try
+            {
+                var httpClient = new HttpClient();
+                var cadastroRequest = new
+                {
+                    Email = email,
+                    Password = senha,
+                    ConfirmPassword = confirmarSenha
+                };
+
+                // Substitua pela URL da sua API que faz o cadastro no Identity
+                string url = "https://localhost:7141/register";
+
+                var response = await httpClient.PostAsJsonAsync(url, cadastroRequest);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await DisplayAlert("Sucesso", "Cadastro realizado com sucesso!", "Fazer login");
+                    await Shell.Current.GoToAsync("//Login");
+                }
+                else
+                {
+                    var erro = await response.Content.ReadAsStringAsync();
+                    await DisplayAlert("Erro", $"Falha no cadastro: {erro}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", $"Erro inesperado: {ex.Message}", "OK");
+            }
         }
 
         private async void Voltar_Clicked(object sender, EventArgs e)
@@ -44,14 +92,7 @@ namespace LumeClient.Views
                 "Não aceito"
             );
 
-            if (aceito)
-            {
-                chkAceitoTermos.IsChecked = true;
-            }
-            else
-            {
-                chkAceitoTermos.IsChecked = false;
-            }
+            chkAceitoTermos.IsChecked = aceito;
         }
     }
 }

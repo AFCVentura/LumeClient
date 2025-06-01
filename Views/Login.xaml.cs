@@ -11,10 +11,6 @@ public partial class Login : ContentPage
         InitializeComponent();
     }
 
-    private void OnGoogleLoginTapped(object sender, EventArgs e)
-    {
-        DisplayAlert("Login com Google", "Você clicou em 'Continue with Google'", "OK");
-    }
     private async void OnLoginClicked(object sender, EventArgs e)
     {
         try
@@ -33,7 +29,7 @@ public partial class Login : ContentPage
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Troque para o endpoint correto se estiver diferente
-            var response = await httpClient.PostAsync("https://localhost:7141/api/v1/auth/login", content);
+            var response = await httpClient.PostAsync("https://localhost:7141/login", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -46,7 +42,7 @@ public partial class Login : ContentPage
                 if (loginResponse != null)
                 {
                     await SecureStorage.Default.SetAsync("access_token", loginResponse.AccessToken);
-                    await Navigation.PushAsync(new MainPage());
+                    await Shell.Current.GoToAsync("//MainPage");
                 }
             }
             else
@@ -62,11 +58,11 @@ public partial class Login : ContentPage
 
     private async void OnEsqueceuSenhaTap(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new EsqueceuSenha());
+        await Navigation.PushAsync(new EsqueciSenha());
     }
 
     private async void OnCriarContaTap(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new Registro());
+        await Navigation.PushAsync(new TelaCadastro());
     }
 }
