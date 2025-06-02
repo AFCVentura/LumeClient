@@ -4,13 +4,13 @@ using Microsoft.Maui.Controls;
 
 namespace LumeClient.Views;
 
-public partial class TelaHumorDia : ContentPage
+public partial class HumorDia : ContentPage
 {
     private int perguntaIndex = 0;
     private Dictionary<string, string> respostas = new();
     private List<Pergunta> perguntas;
 
-    public TelaHumorDia()
+    public HumorDia()
     {
         InitializeComponent();
         perguntas = GerarPerguntas();
@@ -23,28 +23,28 @@ public partial class TelaHumorDia : ContentPage
         {
             new Pergunta
             {
-                Texto = "HOJE, QUAL TIPO DE HISTÓRIA TE CHAMA MAIS ATENÇÃO?",
+                Texto = "HOJE, QUAL TIPO DE HISTï¿½RIA TE CHAMA MAIS ATENï¿½ï¿½O?",
                 Opcoes = new List<string>
                 {
-                    "Algo leve e divertido, me faça rir.",
+                    "Algo leve e divertido, me faï¿½a rir.",
                     "Algo intenso e profundo, quero refletir hoje.",
                     "Algo que me envolva emocionalmente.",
-                    "Algo cheio de ação e aventura.",
-                    "Algo que me faça sentir medo ou tensão.",
+                    "Algo cheio de aï¿½ï¿½o e aventura.",
+                    "Algo que me faï¿½a sentir medo ou tensï¿½o.",
                     "Algo fora do comum, surreal."
                 },
                 Chave = "PreferenciaUsuario"
             },
             new Pergunta
             {
-                Texto = "COMO ESTÁ SEU NÍVEL DE RESISTÊNCIA A FILMES LONGOS?",
+                Texto = "COMO ESTï¿½ SEU Nï¿½VEL DE RESISTï¿½NCIA A FILMES LONGOS?",
                 Opcoes = new List<string>
                 {
-                    "Quanto maior, melhor! Me dá filme de 3 horas!",
-                    "Até 2 horas tá ótimo.",
-                    "Prefiro rapidinhos, estilo 1h30 e olhe lá.",
+                    "Quanto maior, melhor! Me dï¿½ filme de 3 horas!",
+                    "Atï¿½ 2 horas tï¿½ ï¿½timo.",
+                    "Prefiro rapidinhos, estilo 1h30 e olhe lï¿½.",
                     "Se for bom, nem percebo o tempo passar.",
-                    "Tô pronto pra maratonar uma saga inteira!"
+                    "Tï¿½ pronto pra maratonar uma saga inteira!"
                 },
                 Chave = "DuracaoFilme"
             },
@@ -64,11 +64,11 @@ public partial class TelaHumorDia : ContentPage
             },
             new Pergunta
             {
-                Texto = "VOCÊ VAI ASSISTIR COM MAIS ALGUÉM?",
+                Texto = "VOCï¿½ VAI ASSISTIR COM MAIS ALGUï¿½M?",
                 Opcoes = new List<string>
                 {
                     "Estou acompanhado!",
-                    "Hoje a sessão é solo."
+                    "Hoje a sessï¿½o ï¿½ solo."
                 },
                 Chave = "Acompanhado"
             }
@@ -115,14 +115,14 @@ public partial class TelaHumorDia : ContentPage
         {
             perguntas.Insert(perguntaIndex + 1, new Pergunta
             {
-                Texto = "QUE TIPO DE HISTÓRIA SEU PARCEIRO(A) DE FILME PREFERE HOJE?",
+                Texto = "QUE TIPO DE HISTï¿½RIA SEU PARCEIRO(A) DE FILME PREFERE HOJE?",
                 Opcoes = new List<string>
                 {
-                    "Algo leve e divertido, me faça rir.",
+                    "Algo leve e divertido, me faï¿½a rir.",
                     "Algo intenso e profundo, quero refletir hoje.",
                     "Algo que me envolva emocionalmente.",
-                    "Algo cheio de ação e aventura.",
-                    "Algo que me faça sentir medo ou tensão.",
+                    "Algo cheio de aï¿½ï¿½o e aventura.",
+                    "Algo que me faï¿½a sentir medo ou tensï¿½o.",
                     "Algo fora do comum, surreal."
                 },
                 Chave = "PreferenciaCompanheiro"

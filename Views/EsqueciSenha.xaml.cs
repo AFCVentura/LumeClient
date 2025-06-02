@@ -36,7 +36,7 @@ namespace LumeClient.Views
                 {
                     bool confirm = await DisplayAlert(
                         "Sucesso",
-                        "E-mail de redefinição enviado com sucesso. Clique em OK para redefinir sua senha.",
+                        "E-mail de redefiniï¿½ï¿½o enviado com sucesso. Clique em OK para redefinir sua senha.",
                         "OK",
                         "Cancelar");
 

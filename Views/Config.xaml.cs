@@ -3,9 +3,9 @@ using Microsoft.Maui.Controls;
 
 namespace LumeClient.Views
 {
-    public partial class TelaConfig : ContentPage
+    public partial class Config : ContentPage
     {
-        public TelaConfig()
+        public Config()
         {
             InitializeComponent();
         }
@@ -30,7 +30,7 @@ namespace LumeClient.Views
             bool confirmar = await DisplayAlert("Excluir Conta", "Tem certeza que deseja excluir sua conta?", "Sim", "Cancelar");
             if (confirmar)
             {
-                await DisplayAlert("Conta Excluída", "Sua conta foi excluída.", "OK");
+                await DisplayAlert("Conta Excluï¿½da", "Sua conta foi excluï¿½da.", "OK");
                 await Shell.Current.GoToAsync("//Login");
             }
         }

@@ -63,6 +63,6 @@ public partial class Login : ContentPage
 
     private async void OnCriarContaTap(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new TelaCadastro());
+        await Navigation.PushAsync(new InicioCadastro());
     }
 }

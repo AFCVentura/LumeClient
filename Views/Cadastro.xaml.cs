@@ -7,10 +7,10 @@ using Microsoft.Maui.Controls;
 
 namespace LumeClient.Views
 {
-    public partial class TelaCadastro : ContentPage
+    public partial class Cadastro : ContentPage
     {
 
-        public TelaCadastro()
+        public Cadastro()
         {
             InitializeComponent();
 
@@ -24,13 +24,13 @@ namespace LumeClient.Views
 
             if (!chkMaiorIdade.IsChecked)
             {
-                await DisplayAlert("Atenção", "É necessário confirmar que você é maior de 18 anos.", "OK");
+                await DisplayAlert("Atenï¿½ï¿½o", "ï¿½ necessï¿½rio confirmar que vocï¿½ ï¿½ maior de 18 anos.", "OK");
                 return;
             }
 
             if (!chkAceitoTermos.IsChecked)
             {
-                await DisplayAlert("Atenção", "Você precisa aceitar os termos de uso para continuar.", "OK");
+                await DisplayAlert("Atenï¿½ï¿½o", "Vocï¿½ precisa aceitar os termos de uso para continuar.", "OK");
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace LumeClient.Views
 
             if (senha != confirmarSenha)
             {
-                await DisplayAlert("Erro", "As senhas não coincidem.", "OK");
+                await DisplayAlert("Erro", "As senhas nï¿½o coincidem.", "OK");
                 return;
             }
 
@@ -87,9 +87,9 @@ namespace LumeClient.Views
         {
             bool aceito = await DisplayAlert(
                 "Termos de Uso",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Termos genéricos aqui para simular o pop-up dos termos de uso. Role até o final para aceitar.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Termos genï¿½ricos aqui para simular o pop-up dos termos de uso. Role atï¿½ o final para aceitar.",
                 "Aceito",
-                "Não aceito"
+                "Nï¿½o aceito"
             );
 
             chkAceitoTermos.IsChecked = aceito;

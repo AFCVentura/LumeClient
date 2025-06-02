@@ -9,10 +9,7 @@
             InitializeComponent();
         }
 
-        private void OnGoogleLoginTapped(object sender, EventArgs e)
-        {
-            DisplayAlert("Login com Google", "Você clicou em 'Continue with Google'", "OK");
-        }
+
 
     }
 

@@ -13,24 +13,29 @@
         ContentTemplate="{DataTemplate local:Login}"
         Route="Login"/>
 
+    <!-- Tela de Início do Cadastro -->
+    <ShellContent
+        Title="Início do Cadastro"
+        ContentTemplate="{DataTemplate local:InicioCadastro}"
+        Route="InicioCadastro"/>
 
     <!-- Página de Swipe (Tela principal de descobrir filmes"Tinder") -->
     <ShellContent
-        Title="Descobrir"
-        ContentTemplate="{DataTemplate local:SwipePage}"
-        Route="SwipePage"/>
+        Title="Swipe"
+        ContentTemplate="{DataTemplate local:Swipe}"
+        Route="Swipe"/>
 
     <!-- Tela de Perguntas iniciais -->
     <ShellContent
         Title="Perguntas"
-        ContentTemplate="{DataTemplate local:PerguntasPage}"
+        ContentTemplate="{DataTemplate local:Perguntas}"
         Route="Perguntas"/>
 
     <!-- Tela de Humor do Dia -->
     <ShellContent
         Title="Humor do Dia"
-        ContentTemplate="{DataTemplate local:TelaHumorDia}"
-        Route="TelaHumorDia"/>
+        ContentTemplate="{DataTemplate local:HumorDia}"
+        Route="HumorDia"/>
 
 
     <!-- Tela Principal -->
@@ -42,26 +47,26 @@
     <!-- Tela de Configurações -->
     <ShellContent
         Title="Configurações"
-        ContentTemplate="{DataTemplate local:TelaConfig}"
-        Route="TelaConfig"/>
+        ContentTemplate="{DataTemplate local:Config}"
+        Route="Config"/>
 
     <!-- Tela de Cadastro -->
     <ShellContent
         Title="Cadastro"
-        ContentTemplate="{DataTemplate local:TelaCadastro}"
-        Route="TelaCadastro"/>
+        ContentTemplate="{DataTemplate local:Cadastro}"
+        Route="Cadastro"/>
 
     <!-- Tela Esqueci a Senha -->
     <ShellContent
         Title="Esqueci a Senha"
         ContentTemplate="{DataTemplate local:EsqueciSenha}"
-        Route="TelaEsqueciSenha"/>
+        Route="EsqueciSenha"/>
 
     <!-- Tela Redefinir Senha -->
     <ShellContent
         Title="Redefinir Senha"
         ContentTemplate="{DataTemplate local:RedefinirSenha}"
-        Route="TelaRedefinirSenha"/>
+        Route="RedefinirSenha"/>
 
 </Shell>
 
