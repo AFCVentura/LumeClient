@@ -42,7 +42,7 @@ namespace LumeClient.Views
 
                     if (confirm)
                     {
-                        await Navigation.PushAsync(new RedefinirSenha());
+                        await Navigation.PushAsync(new RedefinirSenha(email));
                     }
                 }
                 else
