@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.Login"
              BackgroundColor="White"
-             Title="Login">
+             Title="Login"
+             NavigationPage.HasNavigationBar="False">
     <ScrollView>
         <Grid Padding="10">
             <StackLayout VerticalOptions="Center" Spacing="8">

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LumeClient.Views.TelaCadastro"
-             Title="TelaCadastro">
+             BackgroundColor="White"
+             x:Class="LumeClient.Views.Cadastro"
+             Title="Cadastro">
 
     <VerticalStackLayout Padding="20" Spacing="15">
 
         <Image Source="lume_preto.png" HeightRequest="100" HorizontalOptions="Center"/>
         <Label Text="Cadastro" FontSize="28" HorizontalOptions="Center"/>
 
-        <Entry Placeholder="Nome"/>
-        <Entry Placeholder="Email"/>
-        <Entry Placeholder="Senha" IsPassword="True"/>
-        <Entry Placeholder="Confirmar Senha" IsPassword="True"/>
+        <Entry x:Name="emailEntry" Placeholder="Email"/>
+        <Entry x:Name="senhaEntry" Placeholder="Senha" IsPassword="True"/>
+        <Entry x:Name="confirmarSenhaEntry" Placeholder="Confirmar Senha" IsPassword="True"/>
 
         <HorizontalStackLayout VerticalOptions="Center">
             <CheckBox x:Name="chkMaiorIdade" VerticalOptions="Center"/>
@@ -36,6 +36,15 @@
                 </Label.FormattedText>
             </Label>
         </HorizontalStackLayout>
+
+        <Button x:Name="btn_cadastro"
+                    Text="Cadastro"
+                    BackgroundColor="#FBD206"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="10"
+                    Clicked="OnCadastroClicked"/>
 
     </VerticalStackLayout>
 </ContentPage>

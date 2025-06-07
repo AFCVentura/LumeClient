@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace LumeClient.Views
 {
-    public partial class SwipePage : ContentPage
+    public partial class Swipe : ContentPage
     {
         private double xOffset, yOffset;
         private List<string> favoritos = new();
 
-        public SwipePage()
+        public Swipe()
         {
             InitializeComponent();
             CarregarFilme();
@@ -17,10 +17,10 @@ namespace LumeClient.Views
 
         private void CarregarFilme()
         {
-            // só pra testar moka
+            // sï¿½ pra testar moka
             MovieTitle.Text = "Ainda Estou Aqui";
             MovieImage.Source = "filme3.jpg";
-            MovieDescription.Text = "No início da década de 1970, o Brasil enfrenta o endurecimento da ditadura militar...";
+            MovieDescription.Text = "No inï¿½cio da dï¿½cada de 1970, o Brasil enfrenta o endurecimento da ditadura militar...";
         }
 
         private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
@@ -28,7 +28,7 @@ namespace LumeClient.Views
             switch (e.StatusType)
             {
                 case GestureStatus.Running:
-                    // Atualiza as posições de deslocamento enquanto o gesto está em andamento
+                    // Atualiza as posiï¿½ï¿½es de deslocamento enquanto o gesto estï¿½ em andamento
                     CardFrame.TranslationX = e.TotalX;
                     CardFrame.TranslationY = e.TotalY;
                     xOffset = e.TotalX;
@@ -36,7 +36,7 @@ namespace LumeClient.Views
                     break;
 
                 case GestureStatus.Completed:
-                    // Ações com base nos gestos realizados
+                    // Aï¿½ï¿½es com base nos gestos realizados
                     if (xOffset > 100)
                     {
                         // Filme curtido
@@ -59,12 +59,12 @@ namespace LumeClient.Views
                         DisplayAlert("Talvez", $"{MovieTitle.Text} salvo para ver depois.", "OK");
                     }
 
-                    // Restaura a posição do cartão
+                    // Restaura a posiï¿½ï¿½o do cartï¿½o
                     CardFrame.TranslationX = 0;
                     CardFrame.TranslationY = 0;
                     xOffset = yOffset = 0;
 
-                    // Carregar um novo filme após a ação
+                    // Carregar um novo filme apï¿½s a aï¿½ï¿½o
                     CarregarFilme();
                     break;
             }
@@ -72,12 +72,12 @@ namespace LumeClient.Views
 
         private void OnConfigClicked(object sender, EventArgs e)
         {
-            // Navegar para configurações
+            // Navegar para configuraï¿½ï¿½es
         }
 
         private void OnBellClicked(object sender, EventArgs e)
         {
-            // Notificações
+            // Notificaï¿½ï¿½es
         }
 
         private void OnFavClicked(object sender, EventArgs e)

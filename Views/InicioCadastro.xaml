@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.InicioCadastro"
+             BackgroundColor="White"
+             Title="InicioCadastro">
+    <ScrollView>
+        <Grid Padding="10">
+            <StackLayout VerticalOptions="Center" Spacing="8">
+                <!-- Logo LUME -->
+                <Image Source="lume_logo.png"
+                   HeightRequest="100"
+                   HorizontalOptions="Center" />
+
+
+                <Label 
+                    x:Name="txt_instrucoes"
+                    TextColor="Black"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                
+                <Button x:Name="btn_continue"
+                    Text="Continuar"
+                    BackgroundColor="#FBD206"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="30"
+                        WidthRequest="200"
+                    CornerRadius="10"
+                    Clicked="OnContinueClicked"/>
+
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
