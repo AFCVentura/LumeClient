@@ -30,7 +30,7 @@ namespace LumeClient.Views
                 var json = JsonSerializer.Serialize(email);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await httpClient.PostAsync("https://localhost:7141/api/v1/users/forgot-password", content);
+                var response = await httpClient.PostAsync("http://http://192.168.0.105:5249/api/v1/users/forgot-password", content);
 
                 if (response.IsSuccessStatusCode)
                 {

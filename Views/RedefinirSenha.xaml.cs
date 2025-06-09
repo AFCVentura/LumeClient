@@ -23,7 +23,7 @@ namespace LumeClient.Views
 
             if (novaSenha != confirmarSenha)
             {
-                await DisplayAlert("Erro", "As senhas não coincidem.", "OK");
+                await DisplayAlert("Erro", "As senhas nï¿½o coincidem.", "OK");
                 return;
             }
 
