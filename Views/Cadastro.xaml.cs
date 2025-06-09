@@ -10,7 +10,7 @@ namespace LumeClient.Views
     public partial class Cadastro : ContentPage
     {
 
-        public Cadastro()
+        public Cadastro(List<int> selectedExtraIds, List<int> SelectedThemeIds)
         {
             InitializeComponent();
 
@@ -57,7 +57,7 @@ namespace LumeClient.Views
                 };
 
                 // Substitua pela URL da sua API que faz o cadastro no Identity
-                string url = "https://localhost:7141/register";
+                string url = "https://192.168.0.105:5249/register";
 
                 var response = await httpClient.PostAsJsonAsync(url, cadastroRequest);
 
