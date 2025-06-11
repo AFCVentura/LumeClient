@@ -282,7 +282,16 @@ namespace LumeClient.Views
                     // Se tava na primeira pergunta
                     if (extraIndex <= 0) return;
 
-                    var questAnterior = extraQuestions[extraIndex];
+                    // Questão atual
+                    var questAtual = extraQuestions[extraIndex];
+                    // Remove todas as respostas dessa pergunta dos IDs selecionados
+                    foreach (var ans in questAtual.ExtraAnswers)
+                    {
+                        selectedExtraAnswerIds.Remove(ans.Id);
+                    }
+
+                    // Questão anterior
+                    var questAnterior = extraQuestions[extraIndex - 1];
                     // Remove todas as respostas dessa pergunta dos IDs selecionados
                     foreach (var ans in questAnterior.ExtraAnswers)
                     {
@@ -304,11 +313,30 @@ namespace LumeClient.Views
                         // voltar para a última pergunta Extra
                         inThemePhase = false;
                         extraIndex = extraQuestions.Count - 1;
+
+                        // Questão extra anterior
+                        var extraQuestAnterior = extraQuestions[extraIndex];
+                        // Remove todas as respostas dessa pergunta dos IDs selecionados
+                        foreach (var ans in extraQuestAnterior.ExtraAnswers)
+                        {
+                            selectedExtraAnswerIds.Remove(ans.Id);
+                        }
+
                         MostrarPerguntaAtual();
                         return;
                     }
 
-                    var questAnterior = themeQuestions[themeIndex];
+                    // Questão atual
+                    var questAtual = themeQuestions[themeIndex];
+                    // Remove todas as respostas dessa pergunta dos IDs selecionados
+                    foreach (var ans in questAtual.ThemeAnswers)
+                    {
+                        selectedThemeAnswerIds.Remove(ans.Id);
+                    }
+
+                    // Questão anterior
+                    var questAnterior = themeQuestions[themeIndex - 1];
+                    // Remove todas as respostas dessa pergunta dos IDs selecionados
                     foreach (var ans in questAnterior.ThemeAnswers)
                     {
                         selectedThemeAnswerIds.Remove(ans.Id);
