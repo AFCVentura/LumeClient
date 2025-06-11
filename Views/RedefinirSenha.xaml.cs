@@ -35,7 +35,7 @@ namespace LumeClient.Views
 
             if (string.IsNullOrWhiteSpace(_email))
             {
-                await DisplayAlert("Erro", "E-mail do usuário não encontrado. Tente novamente.", "OK");
+                await DisplayAlert("Erro", "E-mail do usuï¿½rio nï¿½o encontrado. Tente novamente.", "OK");
                 return;
             }
 
@@ -57,7 +57,7 @@ namespace LumeClient.Views
             else
             {
                 var erro = await response.Content.ReadAsStringAsync();
-                await DisplayAlert("Erro", "Não foi possível redefinir a senha.\n" + erro, "OK");
+                await DisplayAlert("Erro", "Nï¿½o foi possï¿½vel redefinir a senha.\n" + erro, "OK");
             }
         }
         private async void OnVoltarClicked(object sender, EventArgs e)

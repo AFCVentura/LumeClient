@@ -29,7 +29,7 @@ public partial class InicioCadastro : ContentPage
         else
         {
             // Navega para a próxima página de cadastro
-            await Navigation.PushAsync(new PerguntasPage());
+            await Navigation.PushAsync(new Perguntas());
         }
     }
 }

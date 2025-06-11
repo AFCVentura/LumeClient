@@ -28,7 +28,7 @@
     <!-- Tela de Perguntas iniciais -->
     <ShellContent
         Title="Perguntas"
-        ContentTemplate="{DataTemplate local:PerguntasPage}"
+        ContentTemplate="{DataTemplate local:Perguntas}"
         Route="Perguntas"/>
 
     <!-- Tela de Humor do Dia -->

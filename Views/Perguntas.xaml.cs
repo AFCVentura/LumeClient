@@ -151,7 +151,7 @@ namespace LumeClient.Views
                 BtnVoltar.IsEnabled = (extraIndex > 0);
 
                 // Limpa seleções anteriores
-                OpcoesCollection.SelectedItems = null;
+                OpcoesCollection.SelectedItem = null;
                 OpcoesCollection.SelectedItems?.Clear();
             }
             // ---------- Fase Tema ----------
@@ -180,7 +180,7 @@ namespace LumeClient.Views
                 BtnVoltar.IsEnabled = true;
 
                 // Limpa seleções anteriores
-                OpcoesCollection.SelectedItems = null;
+                OpcoesCollection.SelectedItem = null;
                 OpcoesCollection.SelectedItems?.Clear();
             }
         }
@@ -190,13 +190,10 @@ namespace LumeClient.Views
         // ==============================================
         private void OnNextClicked(object sender, EventArgs e)
         {
-            var selecionados = OpcoesCollection.SelectedItems; 
-
-            if (selecionados == null || selecionados.Count == 0)
-            {
-                DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
-                return;
-            }
+            // Se for multiple
+            var selecionados = OpcoesCollection.SelectedItems;
+            // Se for single
+            var selecionado = OpcoesCollection.SelectedItem;
 
             // ---------- se for fase Extras ----------
             if (!inThemePhase)
@@ -205,6 +202,12 @@ namespace LumeClient.Views
 
                 if (questExtra.IsMultipleChoice)
                 {
+                    if (selecionados == null || selecionados.Count == 0)
+                    {
+                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                        return;
+                    }
+
                     // Multi → adiciona todos os IDs selecionados
                     foreach (var obj in selecionados)
                     {
@@ -215,8 +218,14 @@ namespace LumeClient.Views
                 }
                 else
                 {
-                    // Single → só pega o primeiro selecionado
-                    var extraEscolhido = (ExtraAnswerDTO)selecionados[0];
+                    if (selecionado == null)
+                    {
+                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                        return;
+                    }
+
+                    // Single → pega o selecionado
+                    var extraEscolhido = (ExtraAnswerDTO)selecionado;
                     selectedExtraAnswerIds.Add(extraEscolhido.Id);
                 }
 
@@ -230,6 +239,12 @@ namespace LumeClient.Views
 
                 if (questTema.IsMultipleChoice)
                 {
+                    if (selecionados == null || selecionados.Count == 0)
+                    {
+                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                        return;
+                    }
+
                     foreach (var obj in selecionados)
                     {
                         var temaEscolhido = (ThemeAnswerDTO)obj;
@@ -239,7 +254,13 @@ namespace LumeClient.Views
                 }
                 else
                 {
-                    var temaEscolhido = (ThemeAnswerDTO)selecionados[0];
+                    if (selecionado == null)
+                    {
+                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                        return;
+                    }
+
+                    var temaEscolhido = (ThemeAnswerDTO)selecionado;
                     selectedThemeAnswerIds.Add(temaEscolhido.Id);
                 }
 
@@ -253,41 +274,59 @@ namespace LumeClient.Views
         // ==============================================
         private void OnBackClicked(object sender, EventArgs e)
         {
-            // ---------- Fase Extras ----------
-            if (!inThemePhase)
+            try
             {
-                if (extraIndex <= 0) return;
-
-                var questAnterior = extraQuestions[extraIndex];
-                // Remove todas as respostas dessa pergunta dos IDs selecionados
-                foreach (var ans in questAnterior.ExtraAnswers)
+                // ---------- Fase Extras ----------
+                if (!inThemePhase)
                 {
-                    selectedExtraAnswerIds.Remove(ans.Id);
-                }
+                    // Se tava na primeira pergunta
+                    if (extraIndex <= 0) return;
 
-                extraIndex--;
-                MostrarPerguntaAtual();
-            }
-            // ---------- Fase Tema ----------
-            else
-            {
-                if (themeIndex <= 0)
-                {
-                    // voltar para a última pergunta Extra
-                    inThemePhase = false;
+                    var questAnterior = extraQuestions[extraIndex];
+                    // Remove todas as respostas dessa pergunta dos IDs selecionados
+                    foreach (var ans in questAnterior.ExtraAnswers)
+                    {
+                        selectedExtraAnswerIds.Remove(ans.Id);
+                    }
+
+                    // Limpa seleções anteriores
+                    OpcoesCollection.SelectedItem = null;
+                    OpcoesCollection.SelectedItems?.Clear();
+
+                    extraIndex--;
                     MostrarPerguntaAtual();
-                    return;
                 }
-
-                var questAnterior = themeQuestions[themeIndex];
-                foreach (var ans in questAnterior.ThemeAnswers)
+                // ---------- Fase Tema ----------
+                else
                 {
-                    selectedThemeAnswerIds.Remove(ans.Id);
-                }
+                    if (themeIndex <= 0)
+                    {
+                        // voltar para a última pergunta Extra
+                        inThemePhase = false;
+                        extraIndex = extraQuestions.Count - 1;
+                        MostrarPerguntaAtual();
+                        return;
+                    }
 
-                themeIndex--;
-                MostrarPerguntaAtual();
+                    var questAnterior = themeQuestions[themeIndex];
+                    foreach (var ans in questAnterior.ThemeAnswers)
+                    {
+                        selectedThemeAnswerIds.Remove(ans.Id);
+                    }
+
+                    // Limpa seleções anteriores
+                    OpcoesCollection.SelectedItem = null;
+                    OpcoesCollection.SelectedItems?.Clear();
+
+                    themeIndex--;
+                    MostrarPerguntaAtual();
+                }
             }
+            catch (Exception ex)
+            {
+                DisplayAlert("Exceção", ex.Message, "Ok");
+            }
+            
         }
 
         // ==============================================
@@ -311,22 +350,32 @@ namespace LumeClient.Views
         private void Frame_Tapped(object sender, EventArgs e)
         {
             // Verifica se o sender é um Frame e se tem BindingContext
-            if (sender is Frame frame && frame.BindingContext != null)
+            if (sender is Frame selectedFrame && selectedFrame.BindingContext != null)
             {
+                
+
                 // Se for um Frame, pega o BindingContext
-                var item = frame.BindingContext;
+                var item = selectedFrame.BindingContext;
 
                 // Verifica se é múltipla escolha ou única
                 if (OpcoesCollection.SelectionMode == SelectionMode.Single)
                 {
-                    OpcoesCollection.SelectedItems.Add(item);
+                    // Se já estava selecionado, desseleciona; caso contrário, seleciona
+                    if (OpcoesCollection.SelectedItem == item)
+                    {
+                        OpcoesCollection.SelectedItem = null;
+                    }
+                    else
+                    {
+                        OpcoesCollection.SelectedItem = item;
+                    }
                 }
                 else if (OpcoesCollection.SelectionMode == SelectionMode.Multiple)
                 {
                     var selected = OpcoesCollection.SelectedItems;
 
                     if (selected.Contains(item))
-                        selected.Remove(item);
+                        selected.Remove(item);  
                     else
                         selected.Add(item);
                 }
