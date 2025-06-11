@@ -1,3 +1,4 @@
+using LumeClient.Config;
 using Microsoft.Maui.Controls;
 using System;
 using System.Net.Http.Json;
@@ -46,8 +47,10 @@ namespace LumeClient.Views
                 NewPassword = novaSenha
             };
 
+            var url = APIConfig.ResetPasswordEndpoint;
+
             var httpClient = new HttpClient();
-            var response = await httpClient.PostAsJsonAsync("https://localhost:7141/api/v1/users/reset-password", resetModel);
+            var response = await httpClient.PostAsJsonAsync(url, resetModel);
 
             if (response.IsSuccessStatusCode)
             {

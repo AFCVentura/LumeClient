@@ -1,3 +1,4 @@
+using LumeClient.Config;
 using LumeClient.DTOs;
 using System.Text;
 using System.Text.Json;
@@ -29,7 +30,8 @@ public partial class Login : ContentPage
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Troque para o endpoint correto se estiver diferente
-            var response = await httpClient.PostAsync("http://192.168.0.105:5249/login", content);
+            var url = APIConfig.LoginEndpoint;
+            var response = await httpClient.PostAsync(url, content);
 
             if (response.IsSuccessStatusCode)
             {

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using LumeClient.DTOs;
+using LumeClient.Config;
 
 namespace LumeClient.Views
 {
@@ -54,7 +55,7 @@ namespace LumeClient.Views
             try
             {
                 // URL da API
-                var url = "http://192.168.0.105:5249/api/v1/questions/general-questions";
+                var url = APIConfig.GeneralQuestionsEndpoint;
                 // Faz GET
                 var resp = await _httpClient.GetAsync(url);
 
@@ -190,82 +191,89 @@ namespace LumeClient.Views
         // ==============================================
         private void OnNextClicked(object sender, EventArgs e)
         {
-            // Se for multiple
-            var selecionados = OpcoesCollection.SelectedItems;
-            // Se for single
-            var selecionado = OpcoesCollection.SelectedItem;
-
-            // ---------- se for fase Extras ----------
-            if (!inThemePhase)
+            try
             {
-                var questExtra = extraQuestions[extraIndex];
+                // Se for multiple
+                var selecionados = OpcoesCollection.SelectedItems;
+                // Se for single
+                var selecionado = OpcoesCollection.SelectedItem;
 
-                if (questExtra.IsMultipleChoice)
+                // ---------- se for fase Extras ----------
+                if (!inThemePhase)
                 {
-                    if (selecionados == null || selecionados.Count == 0)
+                    var questExtra = extraQuestions[extraIndex];
+
+                    if (questExtra.IsMultipleChoice)
                     {
-                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
-                        return;
+                        if (selecionados == null || selecionados.Count == 0)
+                        {
+                            DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                            return;
+                        }
+
+                        // Multi → adiciona todos os IDs selecionados
+                        foreach (var obj in selecionados)
+                        {
+                            var extraEscolhido = (ExtraAnswerDTO)obj;
+                            if (!selectedExtraAnswerIds.Contains(extraEscolhido.Id))
+                                selectedExtraAnswerIds.Add(extraEscolhido.Id);
+                        }
+                    }
+                    else
+                    {
+                        if (selecionado == null)
+                        {
+                            DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                            return;
+                        }
+
+                        // Single → pega o selecionado
+                        var extraEscolhido = (ExtraAnswerDTO)selecionado;
+                        selectedExtraAnswerIds.Add(extraEscolhido.Id);
                     }
 
-                    // Multi → adiciona todos os IDs selecionados
-                    foreach (var obj in selecionados)
-                    {
-                        var extraEscolhido = (ExtraAnswerDTO)obj;
-                        if (!selectedExtraAnswerIds.Contains(extraEscolhido.Id))
-                            selectedExtraAnswerIds.Add(extraEscolhido.Id);
-                    }
+                    extraIndex++;
+                    MostrarPerguntaAtual();
                 }
+                // ---------- se for fase Tema ----------
                 else
                 {
-                    if (selecionado == null)
+                    var questTema = themeQuestions[themeIndex];
+
+                    if (questTema.IsMultipleChoice)
                     {
-                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
-                        return;
+                        if (selecionados == null || selecionados.Count == 0)
+                        {
+                            DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                            return;
+                        }
+
+                        foreach (var obj in selecionados)
+                        {
+                            var temaEscolhido = (ThemeAnswerDTO)obj;
+                            if (!selectedThemeAnswerIds.Contains(temaEscolhido.Id))
+                                selectedThemeAnswerIds.Add(temaEscolhido.Id);
+                        }
+                    }
+                    else
+                    {
+                        if (selecionado == null)
+                        {
+                            DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
+                            return;
+                        }
+
+                        var temaEscolhido = (ThemeAnswerDTO)selecionado;
+                        selectedThemeAnswerIds.Add(temaEscolhido.Id);
                     }
 
-                    // Single → pega o selecionado
-                    var extraEscolhido = (ExtraAnswerDTO)selecionado;
-                    selectedExtraAnswerIds.Add(extraEscolhido.Id);
+                    themeIndex++;
+                    MostrarPerguntaAtual();
                 }
-
-                extraIndex++;
-                MostrarPerguntaAtual();
             }
-            // ---------- se for fase Tema ----------
-            else
+            catch (Exception ex)
             {
-                var questTema = themeQuestions[themeIndex];
-
-                if (questTema.IsMultipleChoice)
-                {
-                    if (selecionados == null || selecionados.Count == 0)
-                    {
-                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
-                        return;
-                    }
-
-                    foreach (var obj in selecionados)
-                    {
-                        var temaEscolhido = (ThemeAnswerDTO)obj;
-                        if (!selectedThemeAnswerIds.Contains(temaEscolhido.Id))
-                            selectedThemeAnswerIds.Add(temaEscolhido.Id);
-                    }
-                }
-                else
-                {
-                    if (selecionado == null)
-                    {
-                        DisplayAlert("Atenção", "Por favor, escolha ao menos uma opção para prosseguir.", "OK");
-                        return;
-                    }
-
-                    var temaEscolhido = (ThemeAnswerDTO)selecionado;
-                    selectedThemeAnswerIds.Add(temaEscolhido.Id);
-                }
-
-                themeIndex++;
-                MostrarPerguntaAtual();
+                Console.WriteLine(ex.Message);
             }
         }
 

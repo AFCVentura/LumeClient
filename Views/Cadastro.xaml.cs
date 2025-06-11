@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using LumeClient.Config;
 using Microsoft.Maui.Controls;
 
 namespace LumeClient.Views
@@ -56,8 +57,8 @@ namespace LumeClient.Views
                     ConfirmPassword = confirmarSenha
                 };
 
-                // Substitua pela URL da sua API que faz o cadastro no Identity
-                string url = "https://192.168.0.105:5249/register";
+
+                string url = APIConfig.RegisterEndpoint;
 
                 var response = await httpClient.PostAsJsonAsync(url, cadastroRequest);
 
