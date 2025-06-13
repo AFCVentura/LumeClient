@@ -100,16 +100,10 @@ public partial class SwipeTutorial : ContentPage
         // Se acabou a lista, por enquanto reinicia
         if (currentIndex >= Movies.Count)
         {
-            // Se esgotou a lista, você pode:
-            // - Reiniciar: currentIndex = 0; CarregarFilme();
-            // - Ou exibir mensagem/finalizar fluxo
-            // Por enquanto, vamos reiniciar:
-            //string watched = WatchedMovies.Count > 0 ? string.Join(", ", WatchedMovies) : "Nenhum";
-            //string wished = WishlistedMovies.Count > 0 ? string.Join(", ", WishlistedMovies) : "Nenhum";
-            //string refused = RefusedMovies.Count > 0 ? string.Join(", ", RefusedMovies) : "Nenhum";
-
-
-            //DisplayAlert("Fim da Lista", $"Wishlist: {wished}. Watched: {watched}. Recusados: {refused}", "Ok");
+            //List<MovieDetailsDTO> wishedMovies = ChosenMovieIds.Count > 0 ? Movies.Where(m => ChosenMovieIds.Contains(m.Id)).ToList() : new List<MovieDetailsDTO>();
+            //var wishedTitles = wishedMovies.Select(m => m.Title).ToList();
+            //string wished = wishedMovies.Count > 0 ? string.Join(", ", wishedTitles) : "Nenhum";
+            //DisplayAlert("Fim da Lista", $"Wishlist: {wished}.", "Ok");
 
             Navigation.PushAsync(new InicioCadastro(EtapasCadastroEnum.PreCadastro, selectedExtraAnswerIds, selectedThemeAnswerIds, ChosenMovieIds));
 
@@ -173,53 +167,57 @@ public partial class SwipeTutorial : ContentPage
                 double parentWidth = ((VisualElement)CardFrame.Parent).Width;
                 double parentHeight = ((VisualElement)CardFrame.Parent).Height;
 
-                
                 if (finalDx > 50)
                 {
-                    ChosenMovieIds.Add(Movies[currentIndex].Id);
-                    await CardFrame.TranslateTo(parentWidth, 0, 250, Easing.CubicOut);
+                    await LikeMovie(Movies[currentIndex].Id, parentWidth);
                 }
                 else if (finalDx < -50)
                 {
-                    await CardFrame.TranslateTo(-parentWidth, 0, 250, Easing.CubicOut);
+                    await DislikeMovie(parentWidth);
                 }
                 else
                 {
                     await CardFrame.TranslateTo(0, 0, 150, Easing.Linear);
                 }
 
-                // Reset
-                CardFrame.TranslationX = startX;
-                CardFrame.TranslationY = startY;
-                CardFrame.Rotation = 0;
-                CardFrame.Opacity = 1;
-
-                // Se a animação foi de saída (dx>50 ou dx<-50), avançar para próximo filme
-                if (finalDx > 50 || finalDx < -50)
-                {
-                    currentIndex++;
-                    CarregarFilme();
-                }
-
-                //CarregarFilme();
+                ResetCardPosition();
                 break;
         }
     }
 
-    private void OnConfigClicked(object sender, EventArgs e)
+    private async Task LikeMovie(int movieId, double parentWidth)
     {
-        // Navegar para configura��es
+        ChosenMovieIds.Add(movieId);
+        await CardFrame.TranslateTo(parentWidth, 0, 250, Easing.CubicOut);
+        currentIndex++;
+        CarregarFilme();
     }
 
-    private void OnBellClicked(object sender, EventArgs e)
+    private async Task DislikeMovie(double parentWidth)
     {
-        // Notifica��es
+        await CardFrame.TranslateTo(-parentWidth, 0, 250, Easing.CubicOut);
+        currentIndex++;
+        CarregarFilme();
     }
 
-    private void OnFavClicked(object sender, EventArgs e)
+    private async void OnLikeClicked(object sender, EventArgs e)
     {
-        // Futuro: Navegar para tela de favoritos
+        double parentWidth = ((VisualElement)CardFrame.Parent).Width;
+        await LikeMovie(Movies[currentIndex].Id, parentWidth);
+        ResetCardPosition();
     }
 
-
+    private async void OnDislikeClicked(object sender, EventArgs e)
+    {
+        double parentWidth = ((VisualElement)CardFrame.Parent).Width;
+        await DislikeMovie(parentWidth);
+        ResetCardPosition();
+    }
+    private void ResetCardPosition()
+    {
+        CardFrame.TranslationX = 0;
+        CardFrame.TranslationY = 0;
+        CardFrame.Rotation = 0;
+        CardFrame.Opacity = 1;
+    }
 }

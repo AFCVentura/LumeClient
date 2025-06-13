@@ -6,16 +6,16 @@
              Title="SwipeTutorial"
              BackgroundColor="White">
 
-    <Grid RowDefinitions="80,*,Auto">
-        <StackLayout VerticalOptions="Center">
+    <Grid RowDefinitions="80,*, 100">
+        <StackLayout VerticalOptions="Center" Grid.Row="0">
             <Image Source="lume_logo.png" 
                HeightRequest="80"
                Aspect="AspectFit"/>
         </StackLayout>
 
         <!-- Conteúdo do Filme -->
-       
-            <Frame x:Name="CardFrame"
+
+        <Frame x:Name="CardFrame"
                 Grid.Row="1"
                 BackgroundColor="LightGray"
                 CornerRadius="5"
@@ -26,27 +26,48 @@
                 BorderColor="Transparent"
                 HorizontalOptions="Center">
 
-                <Frame.GestureRecognizers>
-                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+            <Frame.GestureRecognizers>
+                <PanGestureRecognizer PanUpdated="OnPanUpdated" />
                 <TapGestureRecognizer Tapped="OnCardTapped" NumberOfTapsRequired="1" />
-                </Frame.GestureRecognizers>
+            </Frame.GestureRecognizers>
 
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15">
-                    <Image x:Name="MovieImage" HeightRequest="325"  />
-                    <Label x:Name="MovieTitle"
+                <Image x:Name="MovieImage" HeightRequest="325"  />
+                <Label x:Name="MovieTitle"
                        TextColor="Black"
                        FontSize="18"
                        LineBreakMode="WordWrap"
                        FontAttributes="Bold"
                        HorizontalTextAlignment="Center" />
-                    
-                </StackLayout>
-            </Frame>
-        
 
-        <!-- Menu Inferior -->
-        <Grid Grid.Row="2">
-            <views:MenuInferior />
-        </Grid>
+            </StackLayout>
+        </Frame>
+        <HorizontalStackLayout Grid.Row="2"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Spacing="110"
+                               Padding="20,0">
+
+            <ImageButton WidthRequest="50" HeightRequest="50" Clicked="OnDislikeClicked">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialIcons"
+                         Glyph="&#xe5cd;"
+                         Size="40"
+                         Color="Red"/>
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton WidthRequest="50" HeightRequest="50" Clicked="OnLikeClicked">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialIcons"
+                         Glyph="&#xe5ca;"
+                         Size="40"
+                         Color="Green"/>
+                </ImageButton.Source>
+            </ImageButton>
+
+            
+        </HorizontalStackLayout>
+        
     </Grid>
 </ContentPage>
