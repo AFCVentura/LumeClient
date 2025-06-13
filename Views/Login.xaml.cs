@@ -2,6 +2,7 @@ using LumeClient.Config;
 using LumeClient.DTOs;
 using System.Text;
 using System.Text.Json;
+using static LumeClient.Views.InicioCadastro;
 
 namespace LumeClient.Views;
 
@@ -65,6 +66,6 @@ public partial class Login : ContentPage
 
     private async void OnCriarContaTap(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new InicioCadastro());
+        await Navigation.PushAsync(new InicioCadastro(EtapasCadastroEnum.PrePerguntas));
     }
 }

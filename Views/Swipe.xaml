@@ -4,7 +4,7 @@
              xmlns:views="clr-namespace:LumeClient.Views"
              x:Class="LumeClient.Views.Swipe"
              Title="Swipe"
-             BackgroundColor="WhiteSmoke">
+             BackgroundColor="White">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -18,8 +18,8 @@
         <!-- Conteúdo do Filme -->
         <Grid Grid.Row="1" Padding="20">
             <Frame x:Name="CardFrame"
-                BackgroundColor="Black"
-                CornerRadius="20"
+                BackgroundColor="LightGray"
+                CornerRadius="10"
                 HasShadow="True"
                 VerticalOptions="Center"
                 HeightRequest="400"

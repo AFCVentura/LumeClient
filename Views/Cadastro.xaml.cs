@@ -11,7 +11,7 @@ namespace LumeClient.Views
     public partial class Cadastro : ContentPage
     {
 
-        public Cadastro(List<int> selectedExtraIds, List<int> SelectedThemeIds)
+        public Cadastro(List<int> selectedExtraIds, List<int> SelectedThemeIds, List<int> chosenMovieIds)
         {
             InitializeComponent();
 

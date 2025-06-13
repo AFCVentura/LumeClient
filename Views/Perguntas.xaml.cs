@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using LumeClient.DTOs;
 using LumeClient.Config;
+using LumeClient.DTOs.Questions;
+using static LumeClient.Views.InicioCadastro;
 
 namespace LumeClient.Views
 {
@@ -161,7 +163,7 @@ namespace LumeClient.Views
                 // Se acabaram as temas, navegar pra Cadastro
                 if (themeIndex >= themeQuestions.Count)
                 {
-                    NavegarParaCadastro();
+                    NavegarParaSwipeTutorial();
                     return;
                 }
 
@@ -366,18 +368,12 @@ namespace LumeClient.Views
         }
 
         // ==============================================
-        // 7) NavegarParaCadastro
+        // 7) NavegarParaSwipeTutorial
         // ==============================================
-        private void NavegarParaCadastro()
+        private void NavegarParaSwipeTutorial()
         {
-            // Exibe apenas um log de depuração
-            var msg =
-                $"Extras selecionados: {string.Join(",", selectedExtraAnswerIds)}\n" +
-                $"Tema selecionados: {string.Join(",", selectedThemeAnswerIds)}";
-
             // Em produção, faça algo como:
-            // Navigation.PushAsync(new Cadastro(selectedExtraAnswerIds, selectedThemeAnswerIds));
-            DisplayAlert("Respostas concluídas", msg, "OK");
+             Navigation.PushAsync(new InicioCadastro(EtapasCadastroEnum.PreFilmes, selectedExtraAnswerIds, selectedThemeAnswerIds));
         }
 
         // ==============================================

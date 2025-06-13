@@ -2,11 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.SwipeTutorial"
-             Title="SwipeTutorial">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:views="clr-namespace:LumeClient.Views"
+             Title="SwipeTutorial"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="80,*,Auto">
+        <StackLayout VerticalOptions="Center">
+            <Image Source="lume_logo.png" 
+               HeightRequest="80"
+               Aspect="AspectFit"/>
+        </StackLayout>
+
+        <!-- Conteúdo do Filme -->
+       
+            <Frame x:Name="CardFrame"
+                Grid.Row="1"
+                BackgroundColor="LightGray"
+                CornerRadius="5"
+                VerticalOptions="Center"
+                MinimumHeightRequest="400"
+                MaximumHeightRequest="430"
+                WidthRequest="300"
+                BorderColor="Transparent"
+                HorizontalOptions="Center">
+
+                <Frame.GestureRecognizers>
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                <TapGestureRecognizer Tapped="OnCardTapped" NumberOfTapsRequired="1" />
+                </Frame.GestureRecognizers>
+
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15">
+                    <Image x:Name="MovieImage" HeightRequest="325"  />
+                    <Label x:Name="MovieTitle"
+                       TextColor="Black"
+                       FontSize="18"
+                       LineBreakMode="WordWrap"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" />
+                    
+                </StackLayout>
+            </Frame>
+        
+
+        <!-- Menu Inferior -->
+        <Grid Grid.Row="2">
+            <views:MenuInferior />
+        </Grid>
+    </Grid>
 </ContentPage>

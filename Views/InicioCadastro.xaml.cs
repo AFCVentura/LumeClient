@@ -4,16 +4,50 @@ public partial class InicioCadastro : ContentPage
 {
     public List<string> Instrucoes { get; set; }
     public int InstrucoesIndex { get; set; }
-
-    public InicioCadastro()
+    public EtapasCadastroEnum Etapa { get; set; }
+    public enum EtapasCadastroEnum
     {
+        PrePerguntas,
+        PreFilmes,
+        PreCadastro
+    }
+
+    List<int>? ExtraAnswerIds = null;
+    List<int>? ThemeAnswerIds = null;
+    List<int>? ChosenMovieIds = null;
+
+    public InicioCadastro(EtapasCadastroEnum etapa, List<int>? extraAnswerIds = null, List<int>? themeAnswerIds = null, List<int>? chosenMovieIds = null)
+    {
+        ExtraAnswerIds = extraAnswerIds ?? new List<int>();
+        ThemeAnswerIds = themeAnswerIds ?? new List<int>();
+        ChosenMovieIds = chosenMovieIds ?? new List<int>();
+
         InstrucoesIndex = 0;
-        Instrucoes = new List<string>
+        Etapa = etapa;
+        if (etapa == EtapasCadastroEnum.PrePerguntas)
         {
-            "Bem vindo ao Lume!",
-            "Somos uma plataforma de recomendação de filmes focada em mostrar o que há de melhor no cinema levando em conta seus gostos pessoais",
-            "Antes de continuar, por favor, responda algumas perguntas, é rapidinho!"
-        };
+            Instrucoes = new List<string>
+            {
+                "Bem vindo ao Lume!",
+                "Somos uma plataforma de recomendação de filmes focada em mostrar o que há de melhor no cinema levando em conta seus gostos pessoais",
+                "Antes de continuar, por favor, responda algumas perguntas, é rapidinho!"
+            };
+        }
+        else if (etapa == EtapasCadastroEnum.PreFilmes)
+        {
+            Instrucoes = new List<string>
+            {
+                "Perfeito! Nosso cadastro está quase lá, que tal jogarmos um joguinho agora?",
+            };
+        }
+        else if (etapa == EtapasCadastroEnum.PreCadastro)
+        {
+            Instrucoes = new List<string>
+            {
+                "Você foi muito bem! Agora sim, pra finalizar, precisamos apenas que você preencha seu email e defina uma senha.",
+            };
+        }
+        
         InitializeComponent();
         txt_instrucoes.Text = Instrucoes[0];
     }
@@ -28,8 +62,22 @@ public partial class InicioCadastro : ContentPage
         }
         else
         {
-            // Navega para a próxima página de cadastro
-            await Navigation.PushAsync(new Perguntas());
+            if (Etapa == EtapasCadastroEnum.PrePerguntas)
+            {
+                // Navega para a próxima página de perguntas
+                await Navigation.PushAsync(new Perguntas());
+            }
+            else if (Etapa == EtapasCadastroEnum.PreFilmes)
+            {
+                // Navega para a página de filmes
+                await Navigation.PushAsync(new SwipeTutorial(ExtraAnswerIds, ThemeAnswerIds));
+            }
+            else if (Etapa == EtapasCadastroEnum.PreCadastro)
+            {
+                // Navega para a página de cadastro
+                await Navigation.PushAsync(new Cadastro(ExtraAnswerIds, ThemeAnswerIds, ChosenMovieIds));
+            }
+            
         }
     }
 }
