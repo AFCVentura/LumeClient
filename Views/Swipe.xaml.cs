@@ -1,71 +1,219 @@
+using CommunityToolkit.Maui.Views;
+using LumeClient.Config;
+using LumeClient.DTOs.Movies;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using static LumeClient.Views.InicioCadastro;
 
 namespace LumeClient.Views
 {
     public partial class Swipe : ContentPage
     {
-        private double xOffset, yOffset;
-        private List<string> favoritos = new();
+        // Campo que recebe os ids das perguntas da tela anterior
+        private readonly List<int> selectedExtraAnswerIds = new();
+        private readonly List<int> selectedThemeAnswerIds = new();
 
-        public Swipe()
+        // Campo com os filmes famosos vindos do LumeServer
+        List<MovieDetailsDTO> Movies { get; set; } = new();
+        // Campos para armazenar os ids dos filmes escolhidos, recusados e já vistos pelo usuário
+        List<string> WishlistedMovies { get; set; } = new();
+        List<string> RefusedMovies { get; set; } = new();
+        List<string> WatchedMovies { get; set; } = new();
+
+        // HttpClient para chamadas
+        private readonly HttpClient _httpClient;
+
+        // Atributos usados no swipe
+        private double startX, startY;
+
+        // Atributo usado para controlar o índice do filme atual
+        private int currentIndex = 0;
+
+        private string basePosterPathURL = "https://image.tmdb.org/t/p/w500";
+
+        public Swipe(List<int> selectedExtraAnswerIds, List<int> selectedThemeAnswerIds)
         {
             InitializeComponent();
-            CarregarFilme();
+            // Inicializa HttpClient 
+            _httpClient = new HttpClient();
+
+            this.selectedExtraAnswerIds = selectedExtraAnswerIds;
+            this.selectedThemeAnswerIds = selectedThemeAnswerIds;
+        }
+
+        protected override async void OnAppearing()
+        {
+
+            base.OnAppearing();
+            await CarregarFilmesDaAPI();
+        }
+
+        // ==============================================
+        // CarregarFilmesDaApi()
+        // ==============================================
+        private async Task CarregarFilmesDaAPI()
+        {
+            try
+            {
+                // Define a URL
+                var url = APIConfig.FamousMoviesEndpoint;
+
+                // Faz a requisição HTTP
+                var resp = await _httpClient.GetAsync(url);
+
+                // Se a requisição tiver Status Code diferente de 200 (OK)
+                if (!resp.IsSuccessStatusCode)
+                {
+                    await DisplayAlert("Erro", "Não foi possível obter perguntas do servidor.", "OK");
+                    return;
+                }
+
+                // Desserializa o conteúdo da resposta para uma lista de MovieDetailsDTO
+                var json = await resp.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var dto = JsonSerializer.Deserialize<List<MovieDetailsDTO>>(json, options);
+
+                // Se a lista estiver vazia ou nula
+                if (dto is null || dto.Count == 0)
+                {
+                    await DisplayAlert("Aviso", "Não há filmes disponíveis.", "OK");
+                    return;
+                }
+
+                // Guarda localmente os filmes 
+                Movies = dto;
+
+                // Garante que o índice começa zerado
+                currentIndex = 0;
+
+                CarregarFilme();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Exceção", $"{ex.Message}\nExceção Interna:\n{ex.InnerException}", "OK");
+            }
         }
 
         private void CarregarFilme()
         {
-            // s� pra testar moka
-            MovieTitle.Text = "Ainda Estou Aqui";
-            MovieImage.Source = "filme3.jpg";
-            MovieDescription.Text = "No in�cio da d�cada de 1970, o Brasil enfrenta o endurecimento da ditadura militar...";
+            // Caso haja problemas com o índice
+            if (currentIndex < 0) currentIndex = 0;
+
+            // Se acabou a lista, por enquanto reinicia
+            if (currentIndex >= Movies.Count)
+            {
+                // Se esgotou a lista, você pode:
+                // - Reiniciar: currentIndex = 0; CarregarFilme();
+                // - Ou exibir mensagem/finalizar fluxo
+                // Por enquanto, vamos reiniciar:
+                //string watched = WatchedMovies.Count > 0 ? string.Join(", ", WatchedMovies) : "Nenhum";
+                //string wished = WishlistedMovies.Count > 0 ? string.Join(", ", WishlistedMovies) : "Nenhum";
+                //string refused = RefusedMovies.Count > 0 ? string.Join(", ", RefusedMovies) : "Nenhum";
+
+
+                //DisplayAlert("Fim da Lista", $"Wishlist: {wished}. Watched: {watched}. Recusados: {refused}", "Ok");
+
+                //Navigation.PushAsync(new InicioCadastro(EtapasCadastroEnum.PreCadastro, selectedExtraAnswerIds, selectedThemeAnswerIds, WishlistedMovies));
+
+                currentIndex = 0;
+            }
+
+            // Carrega o filme atual
+            var m = Movies[currentIndex];
+            MovieTitle.Text = m.Title;
+            var posterPath = basePosterPathURL + m.PosterPath;
+            MovieImage.Source = posterPath;
+        }
+        // Método OnCardTapped (quando clica):
+        private async void OnCardTapped(object sender, EventArgs e)
+        {
+            // Impede abrir popup logo após um swipe: opcionalmente, verifique se não houve movimento recente
+            // Mas na prática, um swipe engatilha Pan, não Tap. Então:
+            var movie = Movies[currentIndex];
+            // Crie popup com dados completos
+            MovieInfoPopup popup = null;
+
+            try
+            {
+                popup = new MovieInfoPopup(movie);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao criar popup: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Erro", "Falha ao criar popup: " + ex.Message, "OK");
+                return;
+            }
+
+            // Exibe o popup
+            await this.ShowPopupAsync(popup);
         }
 
-        private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+        // Método PanUpdated (quando arrasta):
+        private async void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             switch (e.StatusType)
             {
+                case GestureStatus.Started:
+                    startX = CardFrame.TranslationX;
+                    startY = CardFrame.TranslationY;
+                    break;
+
                 case GestureStatus.Running:
-                    // Atualiza as posi��es de deslocamento enquanto o gesto est� em andamento
-                    CardFrame.TranslationX = e.TotalX;
-                    CardFrame.TranslationY = e.TotalY;
-                    xOffset = e.TotalX;
-                    yOffset = e.TotalY;
+                    double targetX = startX + e.TotalX;
+                    double targetY = startY + e.TotalY;
+                    double currentX = CardFrame.TranslationX;
+                    double currentY = CardFrame.TranslationY;
+                    const double smoothing = 0.2;
+                    CardFrame.TranslationX = currentX + (targetX - currentX) * smoothing;
+                    CardFrame.TranslationY = currentY + (targetY - currentY) * smoothing;
                     break;
 
                 case GestureStatus.Completed:
-                    // A��es com base nos gestos realizados
-                    if (xOffset > 100)
+                case GestureStatus.Canceled:
+                    double finalDx = CardFrame.TranslationX - startX;
+                    double finalDy = CardFrame.TranslationY - startY;
+                    double parentWidth = ((VisualElement)CardFrame.Parent).Width;
+                    double parentHeight = ((VisualElement)CardFrame.Parent).Height;
+
+                    if (finalDy < -75)
                     {
-                        // Filme curtido
-                        favoritos.Add(MovieTitle.Text);
-                        DisplayAlert("Like", $"{MovieTitle.Text} adicionado aos favoritos!", "OK");
+                        //DisplayAlert("Assistido", $"{MovieTitle.Text} marcado como assistido.", "OK");
+                        WatchedMovies.Add(Movies[currentIndex].Title);
+                        await CardFrame.TranslateTo(0, -parentHeight, 250, Easing.CubicOut);
                     }
-                    else if (xOffset < -100)
+                    else if (finalDx > 50)
                     {
-                        // Filme descartado
-                        DisplayAlert("Dislike", $"{MovieTitle.Text} descartado.", "OK");
+                        WishlistedMovies.Add(Movies[currentIndex].Title);
+                        //DisplayAlert("Like", $"{MovieTitle.Text} adicionado aos favoritos!", "OK");
+                        await CardFrame.TranslateTo(parentWidth, 0, 250, Easing.CubicOut);
                     }
-                    else if (yOffset < -100)
+                    else if (finalDx < -50)
                     {
-                        // Filme marcado como assistido (gesto para cima)
-                        DisplayAlert("Assistido", $"{MovieTitle.Text} marcado como assistido.", "OK");
+                        RefusedMovies.Add(Movies[currentIndex].Title);
+                        //DisplayAlert("Dislike", $"{MovieTitle.Text} descartado.", "OK");
+                        await CardFrame.TranslateTo(-parentWidth, 0, 250, Easing.CubicOut);
                     }
-                    else if (yOffset > 100)
+                    else
                     {
-                        // Filme salvo para ver depois (gesto para baixo)
-                        DisplayAlert("Talvez", $"{MovieTitle.Text} salvo para ver depois.", "OK");
+                        await CardFrame.TranslateTo(0, 0, 150, Easing.Linear);
                     }
 
-                    // Restaura a posi��o do cart�o
-                    CardFrame.TranslationX = 0;
-                    CardFrame.TranslationY = 0;
-                    xOffset = yOffset = 0;
+                    // Reset
+                    CardFrame.TranslationX = startX;
+                    CardFrame.TranslationY = startY;
+                    CardFrame.Rotation = 0;
+                    CardFrame.Opacity = 1;
 
-                    // Carregar um novo filme ap�s a a��o
-                    CarregarFilme();
+                    // Se a animação foi de saída (dx>50, dx<-50 ou dy<-75), avançar para próximo filme
+                    if (finalDy < -75 || finalDx > 50 || finalDx < -50)
+                    {
+                        currentIndex++;
+                        CarregarFilme();
+                    }
+
+                    //CarregarFilme();
                     break;
             }
         }

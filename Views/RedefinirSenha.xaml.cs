@@ -1,21 +1,28 @@
-using System;
+using LumeClient.Config;
 using Microsoft.Maui.Controls;
+using System;
+using System.Net.Http.Json;
 
 namespace LumeClient.Views
 {
     public partial class RedefinirSenha : ContentPage
     {
-        public RedefinirSenha()
+
+        private readonly string _email;
+
+        public RedefinirSenha(string email)
         {
             InitializeComponent();
+            _email = email;
         }
 
         private async void OnContinuarClicked(object sender, EventArgs e)
         {
+            string codigo = codigoEntry.Text;
             string novaSenha = novaSenhaEntry.Text;
             string confirmarSenha = confirmarSenhaEntry.Text;
 
-            if (string.IsNullOrEmpty(novaSenha) || string.IsNullOrEmpty(confirmarSenha))
+            if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(novaSenha) || string.IsNullOrEmpty(confirmarSenha))
             {
                 await DisplayAlert("Erro", "Por favor, preencha todos os campos.", "OK");
                 return;
@@ -23,17 +30,43 @@ namespace LumeClient.Views
 
             if (novaSenha != confirmarSenha)
             {
-                await DisplayAlert("Erro", "As senhas não coincidem.", "OK");
+                await DisplayAlert("Erro", "As senhas nï¿½o coincidem.", "OK");
                 return;
             }
 
-            await DisplayAlert("Sucesso", "Senha redefinida com sucesso!", "OK");
-            await Shell.Current.GoToAsync("//MainPage");
-        }
+            if (string.IsNullOrWhiteSpace(_email))
+            {
+                await DisplayAlert("Erro", "E-mail do usuï¿½rio nï¿½o encontrado. Tente novamente.", "OK");
+                return;
+            }
 
+            var resetModel = new
+            {
+                Email = _email,
+                Token = codigo,
+                NewPassword = novaSenha
+            };
+
+            var url = APIConfig.ResetPasswordEndpoint;
+
+            var httpClient = new HttpClient();
+            var response = await httpClient.PostAsJsonAsync(url, resetModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await DisplayAlert("Sucesso", "Senha redefinida com sucesso!", "OK");
+                await Shell.Current.GoToAsync("//Login");
+            }
+            else
+            {
+                var erro = await response.Content.ReadAsStringAsync();
+                await DisplayAlert("Erro", "Nï¿½o foi possï¿½vel redefinir a senha.\n" + erro, "OK");
+            }
+        }
         private async void OnVoltarClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
         }
+
     }
 }

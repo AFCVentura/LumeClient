@@ -1,35 +1,114 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LumeClient.Views.PerguntasPage"
-             Title=""
-             BackgroundColor="Black">
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="LumeClient.Views.Perguntas"
+    Title="Perguntas"
+    BackgroundColor="White">
 
-    <ScrollView>
-        <StackLayout Padding="20">
+    <Grid 
+        RowDefinitions="Auto, *, Auto" 
+        Padding="20">
 
-            <Image Source="lume_logo.png"
-                   HeightRequest="100"
-                   HorizontalOptions="Center" />
+        <!-- 1) Logo e Título da Pergunta -->
+        <StackLayout 
+            Grid.Row="0" 
+            Spacing="10">
 
-            <Label x:Name="PerguntaLabel"
-                   TextColor="Yellow"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   Margin="0,20,0,20" />
+            <Image 
+                Source="lume_logo.png"
+                HeightRequest="100"
+                HorizontalOptions="Center" />
 
-            <CollectionView x:Name="OpcoesCollection"
-                            SelectionMode="Single"
-                            SelectionChanged="OpcoesCollection_SelectionChanged">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Yellow" CornerRadius="12" Padding="10" Margin="0,5" BackgroundColor="Black">
-                            <Label Text="{Binding .}" TextColor="LightGoldenrodYellow" />
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Label 
+                x:Name="PerguntaLabel"
+                TextColor="Black"
+                FontSize="20"
+                FontAttributes="Bold"
+                Margin="0,10,0,10" />
+
         </StackLayout>
-    </ScrollView>
+
+        <!-- 2) CollectionView com alternativas -->
+        <CollectionView 
+            x:Name="OpcoesCollection"
+            Grid.Row="1"
+            Margin="0,20,0,0">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="3" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Frame 
+                        CornerRadius="3" 
+                        Padding="10"
+                        Margin="0,3">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Frame_Tapped"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <!-- Estado normal: fundo branco -->
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="White" />
+                                        <Setter Property="BorderColor" Value="#FFFAD20C" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <!-- Estado selecionado: fundo amarelo -->
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#FFFAD20C" />
+                                        <Setter Property="BorderColor" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <!-- Conteúdo da célula: o texto da alternativa -->
+                        <Label 
+                            Text="{Binding Text}"
+                            FontAttributes="Bold"
+                            TextColor="Black" />
+                    </Frame>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <!-- 3) Botões Voltar / Avançar -->
+        <StackLayout
+            Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalOptions="Center"
+            Spacing="20"
+            Margin="0,20,0,0">
+
+            <Button
+                x:Name="BtnVoltar"
+                Text="← Voltar"
+                TextColor="White"
+                FontAttributes="Bold"
+                BackgroundColor="Gray"
+                Clicked="OnBackClicked"
+                IsEnabled="False" />
+
+            <Button
+                x:Name="BtnAvancar"
+                Text="Próximo →"
+                TextColor="Black"
+                FontAttributes="Bold"
+                BackgroundColor="#FFFAD20C"
+                Clicked="OnNextClicked" />
+
+        </StackLayout>
+
+    </Grid>
 
 </ContentPage>

@@ -27,8 +27,8 @@
                     BackgroundColor="#FBD206"
                     TextColor="Black"
                     FontAttributes="Bold"
-                    HeightRequest="30"
-                        WidthRequest="200"
+                    HeightRequest="40"
+                    WidthRequest="200"
                     CornerRadius="10"
                     Clicked="OnContinueClicked"/>
 

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using LumeClient.Config;
 using Microsoft.Maui.Controls;
 
 namespace LumeClient.Views
@@ -30,7 +31,8 @@ namespace LumeClient.Views
                 var json = JsonSerializer.Serialize(email);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await httpClient.PostAsync("https://localhost:7141/api/v1/users/forgot-password", content);
+                var url = APIConfig.ForgotPasswordEndpoint;
+                var response = await httpClient.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -42,7 +44,7 @@ namespace LumeClient.Views
 
                     if (confirm)
                     {
-                        await Navigation.PushAsync(new RedefinirSenha());
+                        await Navigation.PushAsync(new RedefinirSenha(email));
                     }
                 }
                 else

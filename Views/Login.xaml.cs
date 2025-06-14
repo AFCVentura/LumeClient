@@ -1,6 +1,8 @@
-using LumeClient.Models;
+using LumeClient.Config;
+using LumeClient.DTOs;
 using System.Text;
 using System.Text.Json;
+using static LumeClient.Views.InicioCadastro;
 
 namespace LumeClient.Views;
 
@@ -29,7 +31,8 @@ public partial class Login : ContentPage
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Troque para o endpoint correto se estiver diferente
-            var response = await httpClient.PostAsync("https://localhost:7141/login", content);
+            var url = APIConfig.LoginEndpoint;
+            var response = await httpClient.PostAsync(url, content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -63,6 +66,6 @@ public partial class Login : ContentPage
 
     private async void OnCriarContaTap(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new InicioCadastro());
+        await Navigation.PushAsync(new InicioCadastro(EtapasCadastroEnum.PrePerguntas));
     }
 }

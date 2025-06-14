@@ -19,17 +19,23 @@
         ContentTemplate="{DataTemplate local:InicioCadastro}"
         Route="InicioCadastro"/>
 
-    <!-- Página de Swipe (Tela principal de descobrir filmes"Tinder") -->
-    <ShellContent
-        Title="Swipe"
-        ContentTemplate="{DataTemplate local:Swipe}"
-        Route="Swipe"/>
-
     <!-- Tela de Perguntas iniciais -->
     <ShellContent
         Title="Perguntas"
         ContentTemplate="{DataTemplate local:Perguntas}"
         Route="Perguntas"/>
+
+    <!-- Tela de Tutorial de Swipe -->
+    <ShellContent
+        Title="SwipeTutorial"
+        ContentTemplate="{DataTemplate local:SwipeTutorial}"
+        Route="SwipeTutorial"/>
+
+    <!-- Página de Swipe (Tela principal de descobrir filmes"Tinder") -->
+    <ShellContent
+        Title="Swipe"
+        ContentTemplate="{DataTemplate local:Swipe}"
+        Route="Swipe"/>
 
     <!-- Tela de Humor do Dia -->
     <ShellContent
