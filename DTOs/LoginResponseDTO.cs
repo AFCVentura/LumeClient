@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LumeClient.DTOs
 {
-    public class LoginResponse
+    public class LoginResponseDTO
     {
         public string TokenType { get; set; }
         public string AccessToken { get; set; }

@@ -76,7 +76,7 @@ namespace LumeClient.Config
         #endregion
         #region User
         // GET /api/v1/users
-        public static string UsersEndpoint => $"{BaseUrl}/api/v1/users";
+        public static string MyIdEndpoint => $"{BaseUrl}/api/v1/users/me";
         // POST /api/v1/users/logout
         public static string LogoutEndpoint => $"{BaseUrl}/api/v1/users/logout";
         // PATCH /api/v1/users/change-username

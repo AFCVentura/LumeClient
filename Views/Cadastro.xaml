@@ -1,50 +1,130 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             shell:Shell.NavBarIsVisible="False"
              BackgroundColor="White"
              x:Class="LumeClient.Views.Cadastro"
-             Title="Cadastro">
+             Title="Cadastro"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
+    <ScrollView>
+        <Grid Padding="10">
+            <StackLayout VerticalOptions="Center" Spacing="8">
 
-    <VerticalStackLayout Padding="20" Spacing="15">
+                <!-- Logo LUME -->
+                <Image Source="lume_branco.png"
+               HeightRequest="230"
+               HorizontalOptions="Center"
+               Aspect="AspectFit"/>
 
-        <Image Source="lume_preto.png" HeightRequest="100" HorizontalOptions="Center"/>
-        <Label Text="Cadastro" FontSize="28" HorizontalOptions="Center"/>
+                <!-- Registro -->
+                <Label Text="Registrar-se"
+                    FontSize="17"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    TextColor="Black"
+                    Padding="5"
+                    Margin="0,0,0,10"/>
 
-        <Entry x:Name="emailEntry" Placeholder="Email"/>
-        <Entry x:Name="senhaEntry" Placeholder="Senha" IsPassword="True"/>
-        <Entry x:Name="confirmarSenhaEntry" Placeholder="Confirmar Senha" IsPassword="True"/>
+                <!-- Campo de Email -->
+                <Border Stroke="#FBD206" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8">
+                    <Entry x:Name="txt_email"
+                   Placeholder="Email"
+                   BackgroundColor="Transparent"
+                   TextColor="Black"
+                   PlaceholderColor="Gray"
+                   HeightRequest="50"/>
+                </Border>
 
-        <HorizontalStackLayout VerticalOptions="Center">
-            <CheckBox x:Name="chkMaiorIdade" VerticalOptions="Center"/>
-            <Label Text="Sou maior de 18 anos" VerticalOptions="Center"/>
-        </HorizontalStackLayout>
+                <!-- Campo de Senha -->
+                <Border Stroke="#FBD206"
+                StrokeThickness="2"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 8">
+                    <Entry x:Name="txt_senha"
+                       IsPassword="True"
+                       Placeholder="Senha"
+                       BackgroundColor="Transparent"
+                       TextColor="Black"
+                       PlaceholderColor="Gray"
+                       HeightRequest="50"/>
+                </Border>
 
-        <HorizontalStackLayout VerticalOptions="Center">
-            <CheckBox x:Name="chkAceitoTermos" VerticalOptions="Center"/>
-            <Label VerticalOptions="Center">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Aceito os " />
-                        <Span Text="Termos de Uso"
-                      TextDecorations="Underline"
-                      TextColor="#FFD700">
-                            <Span.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="AbrirTermos"/>
-                            </Span.GestureRecognizers>
-                        </Span>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-        </HorizontalStackLayout>
+                <!-- Campo de Confirmar Senha -->
+                <Border Stroke="#FBD206"
+                    StrokeThickness="2"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 8">
+                    <Entry x:Name="txt_confirmar_senha"
+                           IsPassword="True"
+                           Placeholder="Confirmar Senha"
+                           BackgroundColor="Transparent"
+                           TextColor="Black"    
+                           PlaceholderColor="Gray"
+                           HeightRequest="50"/>
+                </Border>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="0" Margin="0">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <CheckBox x:Name="chkAceitoTermos"
+                                    Color="#FBD206" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Aceito os " TextColor="Black" />
+                                        <Span Text="Termos de Uso"
+                                                 TextDecorations="Underline"
+                                                 TextColor="#FBD206">
+                                            <Span.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="AbrirTermos"/>
+                                            </Span.GestureRecognizers>
+                                        </Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </HorizontalStackLayout>
 
-        <Button x:Name="btn_cadastro"
-                    Text="Cadastro"
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="0" Margin="0">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <CheckBox x:Name="chkMaiorIdade"
+                                    Color="#FBD206" />
+                            <Label Text="Sou maior de 18 anos"
+                                VerticalOptions="Center"
+                                    TextColor="Black" />
+                        </HorizontalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Botão de Registro -->
+                <Button x:Name="btn_registro"
+                    Text="Criar Conta"
                     BackgroundColor="#FBD206"
                     TextColor="Black"
                     FontAttributes="Bold"
                     HeightRequest="50"
                     CornerRadius="10"
-                    Clicked="OnCadastroClicked"/>
-
-    </VerticalStackLayout>
+                    Clicked="OnCadastroTap">
+                    <Button.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCadastroTap" />
+                    </Button.GestureRecognizers>
+                </Button>
+            </StackLayout>
+            <HorizontalStackLayout Grid.Row="6" Margin="0,20,0,0" HorizontalOptions="Center">
+                <ActivityIndicator x:Name="activityIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               WidthRequest="40"
+                               HeightRequest="40"/>
+                <Label x:Name="lblLoading"
+                   Text="Processando..."
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   Margin="10,0,0,0"
+                   TextColor="Gray"/>
+            </HorizontalStackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>
