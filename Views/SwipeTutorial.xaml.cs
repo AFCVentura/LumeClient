@@ -30,8 +30,8 @@ public partial class SwipeTutorial : ContentPage
     private string basePosterPathURL = "https://image.tmdb.org/t/p/w500";
 
     public SwipeTutorial(List<int> selectedExtraAnswerIds, List<int> selectedThemeAnswerIds)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         // Inicializa HttpClient 
         _httpClient = new HttpClient();
 
@@ -41,8 +41,32 @@ public partial class SwipeTutorial : ContentPage
 
     protected override async void OnAppearing()
     {
-        
         base.OnAppearing();
+
+        // Monta as mensagens e GIFs
+        var messages = new List<string>
+        {
+            "Sempre que você entrar no app, poderá usar o Swipe para descobrir filmes baseados nas suas respostas anteriores.",
+            "No Swipe, você verá um filme por vez e poderá indicar sua preferência com duas ações.",
+            "Toque no card para ver todos os detalhes do filme.",
+            "Arraste para a esquerda ou toque no botão vermelho se a recomendação não agradou ou se você já viu e não gostou.",
+            "Arraste para a direita ou toque no botão verde se você curtiu a sugestão ou já viu e gostou.",
+            "Vamos testar agora? Separamos alguns filmes populares para você praticar com base nas instruções. Divirta-se!"
+        };
+        // GIFs correspondentes
+        var gifFiles = new List<string?>
+        {
+            null, // passo 1: só texto
+            null, // passo 2: só texto
+            null, // passo 3: ou coloque "tap_card.gif"
+            "lume_swipe_esquerda.mp4",  // passo 4
+            "lume_swipe_direita.mp4", // passo 5
+            null  // passo 6
+        };
+
+        // Exibe o popup de tutorial
+        var tutorial = new TutorialPopup(messages, gifFiles);
+        await this.ShowPopupAsync(tutorial);
         await CarregarFilmesDaAPI();
     }
 

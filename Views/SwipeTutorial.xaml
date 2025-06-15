@@ -66,8 +66,8 @@
                 </ImageButton.Source>
             </ImageButton>
 
-            
+
         </HorizontalStackLayout>
-        
+
     </Grid>
 </ContentPage>
