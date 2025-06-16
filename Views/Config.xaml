@@ -9,43 +9,66 @@ NavigationPage.HasNavigationBar="False"
 NavigationPage.HasBackButton="False"
              BackgroundColor="White">
 
-    <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="Black">
+    <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="White">
 
-        <!-- Topo com logo e slogan -->
         <StackLayout Grid.Row="0" Padding="15">
-            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-                <Image Source="lume_preto.png" WidthRequest="30" HeightRequest="30"/>
-                <Label Text="O FILME CERTO, NO MOMENTO CERTO"
-                       FontSize="14"
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Spacing="10">
+                <Image Source="lume_branco.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Configurações"
+                       FontSize="20"
                        FontAttributes="Bold"
-                       TextColor="Yellow"/>
+                       TextColor="Black"/>
             </StackLayout>
         </StackLayout>
 
-        <!-- Título e opções -->
-        <StackLayout Grid.Row="1" Padding="25" Spacing="25" BackgroundColor="White">
-            <Label Text="CONFIGURAÇÕES"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   TextColor="Yellow"
-                   HorizontalOptions="Center">
-                <Label.Shadow>
-                    <Shadow Brush="Black" Offset="2,2" Opacity="0.8"/>
-                </Label.Shadow>
-            </Label>
+        <StackLayout Grid.Row="1" Padding="25" Spacing="20" VerticalOptions="Center">
 
-            <StackLayout Spacing="20">
-                <Label Text="• Alterar nome do usuário ✏️" FontSize="16" TextColor="Black"/>
-                <Label Text="• Alterar Senha ✏️" FontSize="16" TextColor="Black"/>
-                <Label Text="• Excluir conta ✏️" FontSize="16" TextColor="Black"/>
-                <Label Text="• Sair ✏️" FontSize="16" TextColor="Black"/>
-            </StackLayout>
+            <Button Text="✏️ Alterar nome do usuário"
+                    Clicked="OnAlterarNomeClicked"
+                    BackgroundColor="#FBD206"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="10"/>
+
+            <Button Text="✏️ Alterar senha"
+                    Clicked="OnAlterarSenhaClicked"
+                    BackgroundColor="#FBD206"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="10"/>
+
+            <Button Text="🗑️ Excluir conta"
+                    Clicked="OnExcluirContaClicked"
+                    BackgroundColor="Red"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="10"/>
+
+            <Button Text="🚪 Sair"
+                    Clicked="OnSairClicked"
+                    BackgroundColor="Gray"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="10"/>
+
         </StackLayout>
 
-        <!-- Rodapé com botão voltar -->
-        <StackLayout Grid.Row="2" Padding="15" HorizontalOptions="Center">
-            <Label Text="← Voltar" FontSize="16" TextColor="Yellow"/>
-        </StackLayout>
+        <Button Grid.Row="2"
+            Text="← Voltar"
+            Clicked="OnVoltarClicked"
+            FontSize="16"
+            TextColor="Black"
+            BackgroundColor="#FBD206"
+            BorderWidth="1"
+            CornerRadius="10"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            Margin="0,0,0,15"/>
+
 
     </Grid>
 </ContentPage>
