@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.EsqueciSenha"
              Title="EsqueciSenha"
+             xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+shell:Shell.NavBarIsVisible="False"
+NavigationPage.HasNavigationBar="False"
+NavigationPage.HasBackButton="False"
              BackgroundColor="White">
 
     <VerticalStackLayout Padding="30" Spacing="20">

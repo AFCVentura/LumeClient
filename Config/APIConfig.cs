@@ -54,7 +54,7 @@ namespace LumeClient.Config
         // GET /api/v1/movies/wishlist-movies/{id}
         public static string WishlistMoviesAllEndpoint => $"{BaseUrl}/api/v1/movies/wishlist-movies/";
         // GET /api/v1/movies/wishlist-movies/{id}/wishlisted-movies/{movieId}
-        public static string WishlistMoviesByIdFirstPartEndpoint => $"{BaseUrl}/api/v1/movies/carousel-movies/";
+        public static string WishlistMoviesByIdFirstPartEndpoint => $"{BaseUrl}/api/v1/movies/wishlist-movies/";
         public static string WishlistMoviesByIdLastPartEndpoint => $"/wishlisted-movies/";
         // GET /api/v1/movies/recommended-movies/{id}
         public static string RecommendedMoviesGetEndpoint => $"{BaseUrl}/api/v1/movies/recommended-movies/";

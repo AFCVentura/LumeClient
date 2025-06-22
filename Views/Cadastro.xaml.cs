@@ -29,12 +29,6 @@ namespace LumeClient.Views
             this.chosenMovieIds = chosenMovieIds;
         }
 
-        // PARA DEBUG
-        public Cadastro()
-        {
-            InitializeComponent();
-        }
-
         private async void OnCadastroTap(object sender, EventArgs e)
         {
             btn_registro.IsEnabled = false;
@@ -46,26 +40,31 @@ namespace LumeClient.Views
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(senha) || string.IsNullOrEmpty(confirmar))
             {
                 await DisplayAlert("Atenção", "Preencha todos os campos.", "OK");
+                btn_registro.IsEnabled = true;
                 return;
             }
             if (!IsValidEmail(email))
             {
                 await DisplayAlert("Atenção", "E-mail inválido.", "OK");
+                btn_registro.IsEnabled = true;
                 return;
             }
             if (senha != confirmar)
             {
                 await DisplayAlert("Atenção", "Senha e confirmação não coincidem.", "OK");
+                btn_registro.IsEnabled = true;
                 return;
             }
             if (!chkAceitoTermos.IsChecked)
             {
                 await DisplayAlert("Atenção", "Você deve aceitar os Termos de Uso.", "OK");
+                btn_registro.IsEnabled = true;
                 return;
             }
             if (!chkMaiorIdade.IsChecked)
             {
                 await DisplayAlert("Atenção", "Você deve confirmar que tem mais de 18 anos.", "OK");
+                btn_registro.IsEnabled = true;
                 return;
             }
 
@@ -73,19 +72,11 @@ namespace LumeClient.Views
             {
                 // 1) Registro
                 var registerSuccess = await RegisterAsync(email, senha);
-                if (!registerSuccess)
-                {
-                    // RegisterAsync já exibe alerta
-                    return;
-                }
+                if (!registerSuccess) return;
 
                 // 2) Login
                 var token = await LoginAsync(email, senha);
-                if (string.IsNullOrEmpty(token))
-                {
-                    // LoginAsync já exibe alerta
-                    return;
-                }
+                if (string.IsNullOrEmpty(token)) return;
 
                 // 3) Extrai userId do token
                 var userId = await FindMyId(token);
@@ -98,22 +89,25 @@ namespace LumeClient.Views
                 // Armazena token
                 await SecureStorage.Default.SetAsync("access_token", token);
 
+                // Instancia tela de loading
+                var loadingPage = new Loading();
+
+                // PushModalAsync exibe como modal por cima
+                await Navigation.PushModalAsync(loadingPage, animated: false);
+
                 // 4) Enviar perfil (terceira requisição)
                 await SendUserProfileAsync(userId, token);
 
-                // 5) Ir para HomePage
-                // Aqui você pode limpar navegação ou ajustar conforme sua estrutura
-                // Exemplo: substitui a página atual pela HomePage
-                Application.Current.Dispatcher.Dispatch(async () =>
-                {
-                    // Ajuste: se quiser remover esta página da pilha:
-                    // await Navigation.PushAsync(new HomePage());
-                    // Navigation.RemovePage(this); // ou outra lógica
-                    await Navigation.PushAsync(new MainPage());
-                });
+                // Remove tela de loading que estava como modal
+                await Navigation.PopModalAsync(animated: false);
+                
+                
+                await Navigation.PushAsync(new MainPage());
             }
             catch (Exception ex)
             {
+                if (Navigation.ModalStack.Count > 0 && Navigation.ModalStack[^1] is Loading)
+                    await Navigation.PopModalAsync(animated: false);
                 await DisplayAlert("Erro", $"Ocorreu um erro: {ex.Message}", "OK");
             }
             finally

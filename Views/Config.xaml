@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.Config"
              Title="Config"
+             xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+shell:Shell.NavBarIsVisible="False"
+NavigationPage.HasNavigationBar="False"
+NavigationPage.HasBackButton="False"
              BackgroundColor="White">
 
     <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="White">
@@ -54,7 +58,7 @@
         </StackLayout>
 
         <Button Grid.Row="2"
-            Text="← Voltar"
+            Text="Voltar"
             Clicked="OnVoltarClicked"
             FontSize="16"
             TextColor="Black"
