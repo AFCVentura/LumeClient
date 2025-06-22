@@ -74,5 +74,17 @@
         ContentTemplate="{DataTemplate local:RedefinirSenha}"
         Route="RedefinirSenha"/>
 
+    <!-- Tela Alterar Nome -->
+    <ShellContent
+        Title="Alterar Nome"
+        ContentTemplate="{DataTemplate local:AlterarNome}"
+        Route="AlterarNome"/>
+
+    <!-- Tela Alterar Senha -->
+    <ShellContent
+        Title="Alterar Senha"
+        ContentTemplate="{DataTemplate local:AlterarSenha}"
+        Route="AlterarSenha"/>
+
 </Shell>
 

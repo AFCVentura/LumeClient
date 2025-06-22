@@ -14,12 +14,12 @@ namespace LumeClient.Views
 
         private async void OnAlterarNomeClicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Alterar Nome", "Funcionalidade em desenvolvimento", "OK");
+            await Shell.Current.GoToAsync("//AlterarNome");
         }
 
         private async void OnAlterarSenhaClicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Alterar Senha", "Funcionalidade em desenvolvimento", "OK");
+            await Shell.Current.GoToAsync("//AlterarSenha");
         }
 
         private async void OnExcluirContaClicked(object sender, EventArgs e)
@@ -49,8 +49,9 @@ namespace LumeClient.Views
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Exceção: {ex.Message}");
                 await DisplayAlert("Erro", $"Falha ao excluir conta", "OK");
             }
             finally
@@ -90,6 +91,7 @@ namespace LumeClient.Views
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exceção: {ex.Message}");
                 await DisplayAlert("Erro", $"Falha ao fazer logout", "OK");
             } 
             finally
@@ -101,7 +103,7 @@ namespace LumeClient.Views
 
         private async void OnVoltarClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("//MainPage");
         }
     }
 }

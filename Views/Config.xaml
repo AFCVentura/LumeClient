@@ -58,7 +58,7 @@ NavigationPage.HasBackButton="False"
         </StackLayout>
 
         <Button Grid.Row="2"
-            Text="← Voltar"
+            Text="Voltar"
             Clicked="OnVoltarClicked"
             FontSize="16"
             TextColor="Black"

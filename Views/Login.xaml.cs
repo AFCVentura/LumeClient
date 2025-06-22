@@ -30,7 +30,6 @@ public partial class Login : ContentPage
             var json = JsonSerializer.Serialize(loginData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // Troque para o endpoint correto se estiver diferente
             var url = APIConfig.LoginEndpoint;
             var response = await httpClient.PostAsync(url, content);
 
