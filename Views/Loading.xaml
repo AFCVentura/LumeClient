@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
-shell:Shell.NavBarIsVisible="False"
-NavigationPage.HasNavigationBar="False"
-NavigationPage.HasBackButton="False"
+             shell:Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
              x:Class="LumeClient.Views.Loading"
              BackgroundColor="White"
              Title="Loading"
@@ -12,10 +12,11 @@ NavigationPage.HasBackButton="False"
     <Grid>
         <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
             <!-- Mensagem divertida -->
-            <Label Text="Estamos preparando a pipoca 🍿..." 
+            <Label x:Name="lblMessage" 
                    FontSize="18" 
                    FontAttributes="Bold" 
                    TextColor="Black"
+                   LineBreakMode="WordWrap"
                    HorizontalTextAlignment="Center"/>
             <!-- ActivityIndicator simples -->
             <ActivityIndicator IsRunning="True" Color="#FBD206" WidthRequest="50" HeightRequest="50"/>

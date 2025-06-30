@@ -2,25 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
-shell:Shell.NavBarIsVisible="False"
-NavigationPage.HasNavigationBar="False"
-NavigationPage.HasBackButton="False"
+             shell:Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
              BackgroundColor="White"
              Title="MainPage"
-             x:Class="LumeClient.Views.MainPage">
+             x:Class="LumeClient.Views.MainPage"
+             ControlTemplate="{StaticResource PageWithHeaderFooter}">
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto">
-
-        <!-- TOPO -->
-        <Grid Grid.Row="0" BackgroundColor="Black" Padding="10">
-            <Image
-                Source="lume_logo.png" 
-                HorizontalOptions="Center" 
-                HeightRequest="45" />
-        </Grid>
-        
+    <Grid RowDefinitions="Auto, Auto, *">
         <!-- Título da seção -->
-        <Grid Grid.Row="1" BackgroundColor="Black" Padding="10" Margin="0">
+        <StackLayout Grid.Row="0" BackgroundColor="Black" Padding="10" Margin="0">
             <Label 
                 Text="Suas Últimas recomendações"
                 TextColor="{StaticResource Primary}"
@@ -28,15 +20,15 @@ NavigationPage.HasBackButton="False"
                 FontSize="24"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"/>
-        </Grid>
+        </StackLayout>
         
         <!-- Carrossel / Wishlist -->
-        <Grid RowDefinitions="Auto, *" Grid.Row="2" Padding="10,10,10,0">
+        <Grid RowDefinitions="Auto, *" Grid.Row="1" Padding="10,10,10,0">
             
             <!-- CollectionView para recomendações -->
             <CollectionView x:Name="RecommendationsCollection"
                 ItemsLayout="HorizontalList"
-                SelectionMode="Single"
+                SelectionMode="None"
                 HeightRequest="170"
                 Grid.Row="0"
                 Margin="0,10">
@@ -146,90 +138,12 @@ NavigationPage.HasBackButton="False"
         </Grid>
 
         <!-- DETALHES DO FILME -->
-        <ScrollView Grid.Row="3" Padding="20">
+        <ScrollView Grid.Row="2" Padding="20">
             <VerticalStackLayout x:Name="DetailsContainer" Spacing="10">
                 <!-- Inicialmente vazio; será preenchido no code-behind -->
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- MENU INFERIOR -->
-        <Grid 
-            Grid.Row="4" 
-            Padding="30,10" 
-            BackgroundColor="Black"
-            >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            
-            <!-- Engrenagem -->
-            <ImageButton 
-                HeightRequest="60" 
-                WidthRequest="60"
-                HorizontalOptions="Center" 
-                Grid.Column="0">
-                <ImageButton.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Tapped="OnSettingsTapped" 
-                        NumberOfTapsRequired="1" />
-                </ImageButton.GestureRecognizers>
-                
-                <ImageButton.Source>
-                    <FontImageSource 
-                        FontFamily="MaterialIcons"
-                        Glyph="&#xe8b8;"
-                        Size="40"
-                        Color="{StaticResource Primary}"/>
-                </ImageButton.Source>
-            </ImageButton>
-
-            <!-- Lâmpada -->
-            <ImageButton 
-                HeightRequest="60"
-                WidthRequest="60"
-                HorizontalOptions="Center" 
-                BackgroundColor="{StaticResource Primary}"
-                Grid.Column="1"
-                CornerRadius="30">
-                <ImageButton.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Tapped="OnPlayTapped" 
-                        NumberOfTapsRequired="1" />
-                </ImageButton.GestureRecognizers>
-
-                <ImageButton.Source>
-                    <FontImageSource 
-                        FontFamily="MaterialIcons"
-                        Glyph="&#xe42e;"
-                        Size="40"
-                        Color="{StaticResource Tertiary}"
-                        />
-                </ImageButton.Source>
-            </ImageButton>
-            
-            <!-- Coração -->
-            <ImageButton 
-                HeightRequest="60"
-                WidthRequest="60"
-                HorizontalOptions="Center" 
-                Grid.Column="2">
-                <ImageButton.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Tapped="OnWishlistTapped" 
-                        NumberOfTapsRequired="1" />
-                </ImageButton.GestureRecognizers>
-
-                <ImageButton.Source>
-                    <FontImageSource 
-                        FontFamily="MaterialIcons"
-                        Glyph="&#xe87d;"
-                        Size="40"
-                        Color="{StaticResource Primary}"/>
-                </ImageButton.Source>
-            </ImageButton>
-        </Grid>
     </Grid>
 
 

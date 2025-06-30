@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.SwipeResult"
+             xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             shell:Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
+             BackgroundColor="White"
+             Title="SwipeResult"
+             ControlTemplate="{StaticResource PageWithHeaderFooter}">
+    <!-- Grid principal: Row 0 = cabeçalho, Row 1 = CollectionView (scroll), Row 2 = botão fixo -->
+    <Grid RowDefinitions="Auto, *, Auto" Padding="10">
+        <!-- 1) Cabeçalho: mostra “Você escolheu X filmes” -->
+        <Label
+            x:Name="lblHeader"
+            Grid.Row="0"
+            Text="Você escolheu 0 filmes"
+            FontSize="20"
+            FontAttributes="Bold"
+            TextColor="{StaticResource Tertiary}"
+            HorizontalOptions="Center"
+            Margin="0,10,0,10"/>
+
+        <!-- 2) Lista de posters em grid scrollável -->
+        <CollectionView
+            x:Name="ChosenCollection"
+            Grid.Row="1"
+            ItemsLayout="VerticalGrid, 3"  
+            SelectionMode="None"            
+            Margin="0,0,0,10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Cada item: Frame para estética, imagem preenche toda a área -->
+                    <Frame
+                        CornerRadius="8"
+                        Padding="0"
+                        Margin="5"
+                        HasShadow="True"
+                        BackgroundColor="LightGray">
+                        <Grid>
+                            <!-- placeholder atrás se quiser: opcional
+                            <Image Source="poster_loading.png" Aspect="AspectFill"
+                                   HorizontalOptions="Fill" VerticalOptions="Fill" InputTransparent="True"/>
+                            -->
+                            <Image
+                                Source="{Binding PosterPath}" 
+                                Aspect="AspectFill"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                InputTransparent="True"/>
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnMovieTapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <!-- Overlay de loading interno se quiser -->
+        </CollectionView>
+
+        <!-- 3) Botão fixo -->
+        <Button
+            x:Name="btnGoWishlist"
+            Grid.Row="2"
+            Text="Ir para Wishlist"
+            BackgroundColor="{StaticResource Primary}"
+            TextColor="{StaticResource Tertiary}"
+            FontAttributes="Bold"
+            HeightRequest="50"
+            CornerRadius="8"
+            Margin="0,0,0,10"
+            Clicked="OnGoWishlistClicked"/>
+    </Grid>
+</ContentPage>

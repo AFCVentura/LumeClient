@@ -18,7 +18,8 @@ namespace LumeClient.Config
         {
             { "NotebookEthernetVenturaHttps", "https://192.168.0.105:7141" },
             { "NotebookEthernetVenturaHttp", "http://192.168.0.105:5249" },
-        
+            { "NotebookWifiSenac", "http://172.16.164.211:5249" },
+            { "NotebookEthernetAuditorioSenacHttps", "http://172.16.166.252:5249" }
         };
         public static string BaseUrl { get; set; } = PossibleIPAddresses["NotebookEthernetVenturaHttp"];
         #endregion
@@ -75,20 +76,24 @@ namespace LumeClient.Config
         public static string DailyAnswersEndpoint => $"{BaseUrl}/api/v1/questions/daily-answers/";
         #endregion
         #region User
-        // GET /api/v1/users
+        // GET /api/v1/users/me
         public static string MyIdEndpoint => $"{BaseUrl}/api/v1/users/me";
+        // GET /api/v1/users/me/do-i-have-recommendations/{id}
+        public static string DoIHaveRecommendationsFirstPartEndpoint => $"{BaseUrl}/api/v1/users/";
+        public static string DoIHaveRecommendationsLastPartEndpoint => $"/do-i-have-recommendations";
         // POST /api/v1/users/logout
         public static string LogoutEndpoint => $"{BaseUrl}/api/v1/users/logout";
         // PATCH /api/v1/users/change-username
         public static string ChangeUsernameEndpoint => $"{BaseUrl}/api/v1/users/change-username";
         // PATCH /api/v1/users/change-password
         public static string ChangePasswordEndpoint => $"{BaseUrl}/api/v1/users/change-password";
-        // POST /api/v1/users/forgot-username
-        public static string ForgotUsernameEndpoint => $"{BaseUrl}/api/v1/users/forgot-password";
+        // POST /api/v1/users/forgot-password
+        public static string ForgotPasswordUserEndpoint => $"{BaseUrl}/api/v1/users/forgot-password";
         // POST /api/v1/users/reset-password
         public static string ResetPasswordEndpoint => $"{BaseUrl}/api/v1/users/reset-password";
         // DELETE /api/v1/users/delete-account
         public static string DeleteAccountEndpoint => $"{BaseUrl}/api/v1/users/delete-account";
+
         #endregion
         #endregion
 

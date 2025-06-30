@@ -1,29 +1,24 @@
 using CommunityToolkit.Maui.Views;
 using LumeClient.Config;
 using LumeClient.DTOs.Movies;
-using Microsoft.Maui.Controls;
-using System;
-using System.Collections.Generic;
+using LumeClient.DTOs.Users;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
-using static LumeClient.Views.InicioCadastro;
 
 namespace LumeClient.Views
 {
     public partial class Swipe : ContentPage
     {
-        // Campo que recebe os ids das perguntas da tela anterior
-        private readonly List<int> selectedExtraAnswerIds = new();
-        private readonly List<int> selectedThemeAnswerIds = new();
-
         // Campo com os filmes famosos vindos do LumeServer
         List<MovieDetailsDTO> Movies { get; set; } = new();
         // Campos para armazenar os ids dos filmes escolhidos, recusados e já vistos pelo usuário
-        List<string> WishlistedMovies { get; set; } = new();
-        List<string> RefusedMovies { get; set; } = new();
-        List<string> WatchedMovies { get; set; } = new();
+        List<int> WishlistedMovieIds { get; set; } = new();
+        List<int> RefusedMovieIds { get; set; } = new();
+        List<int> WatchedMovieIds { get; set; } = new();
 
         // HttpClient para chamadas
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient = new HttpClient();
 
         // Atributos usados no swipe
         private double startX, startY;
@@ -33,21 +28,69 @@ namespace LumeClient.Views
 
         private string basePosterPathURL = "https://image.tmdb.org/t/p/w500";
 
-        public Swipe(List<int> selectedExtraAnswerIds, List<int> selectedThemeAnswerIds)
+        public Swipe()
         {
-            InitializeComponent();
-            // Inicializa HttpClient 
-            _httpClient = new HttpClient();
-
-            this.selectedExtraAnswerIds = selectedExtraAnswerIds;
-            this.selectedThemeAnswerIds = selectedThemeAnswerIds;
+            InitializeComponent();         
         }
 
         protected override async void OnAppearing()
         {
 
             base.OnAppearing();
+
+
+            // Monta as mensagens e GIFs
+            var messages = new List<string>
+            {
+                "Bem vindo ao Swipe do dia a dia, aqui as coisas são parecidas com quando você criou a conta, mas é importante ressaltar as diferenças",
+                "Agora os filmes irão aparecer com base nas respostas que você deu no questionário anterior",
+                "Além disso, você terá três possíveis ações ao invés de duas",
+                "Para a direita caso goste da sugestão",
+                "Para a esquerda caso não goste da sugestão",
+                "E para cima caso já tenha visto o filme",
+                "Divirta-se!"
+             };
+            // GIFs correspondentes
+            var gifFiles = new List<string?>
+            {
+                null, // passo 1: só texto
+                null, // passo 2: só texto
+                null, // passo 3: ou coloque "tap_card.gif"
+                "lume_swipe_direita.mp4",  // passo 4
+                "lume_swipe_esquerda.mp4", // passo 5
+                "lume_swipe_cima.mp4",  // passo 6
+                null
+            };
+
+            // Exibe o popup de tutorial
+            var tutorial = new TutorialPopup(messages, gifFiles);
+            await this.ShowPopupAsync(tutorial);
+
             await CarregarFilmesDaAPI();
+        }
+
+        private bool _isBackConfirmationOpen = false;
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (_isBackConfirmationOpen)
+                return true;
+
+            _isBackConfirmationOpen = true;
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                bool confirmar = await DisplayAlert("Atenção",
+                    "Você irá perder todo o progresso. Deseja realmente voltar ao início?",
+                    "Sim", "Cancelar");
+
+                if (confirmar)
+                    await Navigation.PushAsync(new MainPage());
+
+                _isBackConfirmationOpen = false;
+            });
+
+            return true;
         }
 
         // ==============================================
@@ -57,8 +100,14 @@ namespace LumeClient.Views
         {
             try
             {
+                var token = await SecureStorage.Default.GetAsync("access_token");
+                var userId = await FindMyId(token);
+
+                _httpClient.DefaultRequestHeaders.Authorization =
+               new AuthenticationHeaderValue("Bearer", token);
+
                 // Define a URL
-                var url = APIConfig.FamousMoviesEndpoint;
+                var url = $"{APIConfig.RecommendedMoviesGetEndpoint}{userId}";
 
                 // Faz a requisição HTTP
                 var resp = await _httpClient.GetAsync(url);
@@ -66,7 +115,7 @@ namespace LumeClient.Views
                 // Se a requisição tiver Status Code diferente de 200 (OK)
                 if (!resp.IsSuccessStatusCode)
                 {
-                    await DisplayAlert("Erro", "Não foi possível obter perguntas do servidor.", "OK");
+                    await DisplayAlert("Erro", "Não foi possível obter os filmes no servidor.", "OK");
                     return;
                 }
 
@@ -88,15 +137,20 @@ namespace LumeClient.Views
                 // Garante que o índice começa zerado
                 currentIndex = 0;
 
-                CarregarFilme();
+                await CarregarFilme();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Exceção", $"{ex.Message}\nExceção Interna:\n{ex.InnerException}", "OK");
             }
+            finally
+            {
+                // Remova o header para não afetar outras requisições
+                _httpClient.DefaultRequestHeaders.Authorization = null;
+            }
         }
 
-        private void CarregarFilme()
+        private async Task CarregarFilme()
         {
             // Caso haja problemas com o índice
             if (currentIndex < 0) currentIndex = 0;
@@ -111,11 +165,12 @@ namespace LumeClient.Views
                 //string watched = WatchedMovies.Count > 0 ? string.Join(", ", WatchedMovies) : "Nenhum";
                 //string wished = WishlistedMovies.Count > 0 ? string.Join(", ", WishlistedMovies) : "Nenhum";
                 //string refused = RefusedMovies.Count > 0 ? string.Join(", ", RefusedMovies) : "Nenhum";
-
-
                 //DisplayAlert("Fim da Lista", $"Wishlist: {wished}. Watched: {watched}. Recusados: {refused}", "Ok");
 
                 //Navigation.PushAsync(new InicioCadastro(EtapasCadastroEnum.PreCadastro, selectedExtraAnswerIds, selectedThemeAnswerIds, WishlistedMovies));
+
+                await EnviarFilmes();
+
 
                 currentIndex = 0;
             }
@@ -126,6 +181,77 @@ namespace LumeClient.Views
             var posterPath = basePosterPathURL + m.PosterPath;
             MovieImage.Source = posterPath;
         }
+
+        private async Task EnviarFilmes()
+        {
+            var token = await SecureStorage.Default.GetAsync("access_token");
+            var userId = await FindMyId(token);
+
+            _httpClient.DefaultRequestHeaders.Authorization =
+           new AuthenticationHeaderValue("Bearer", token);
+
+            // Define a URL
+            var url = $"{APIConfig.RecommendedMoviesPostEndpoint}{userId}";
+
+            var payload = new List<RecommendedMovieStatusDTO>();
+
+            foreach (var movieId in RefusedMovieIds) 
+            {
+                payload.Add(new RecommendedMovieStatusDTO
+                {
+                    MovieId = movieId,
+                    Watched = false,
+                    Liked = false
+                });
+            }
+
+            foreach (var movieId in WatchedMovieIds)
+            {
+                payload.Add(new RecommendedMovieStatusDTO
+                {
+                    MovieId = movieId,
+                    Watched = true,
+                    Liked = false
+                });
+            }
+
+            foreach (var movieId in WishlistedMovieIds)
+            {
+                payload.Add(new RecommendedMovieStatusDTO
+                {
+                    MovieId = movieId,
+                    Watched = false,
+                    Liked = true
+                });
+            }
+            var jsonPayload = JsonSerializer.Serialize(payload);
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+            // Faz a requisição HTTP
+            var resp = await _httpClient.PostAsync(url, content);
+
+            // Se a requisição tiver Status Code diferente de 200 (OK)
+            if (!resp.IsSuccessStatusCode)
+            {
+                await DisplayAlert("Erro", "Não foi possível enviar os filmes ao servidor.", "OK");
+                return;
+            }
+
+            var chosenMovies = new List<MovieDetailsDTO>();
+
+            foreach (var movieId in WishlistedMovieIds)
+            {
+                var movie = Movies.FirstOrDefault(m => m.Id == movieId);
+                if (movie is not null)
+                {
+                    chosenMovies.Add(movie);
+                }
+            }
+
+            await Navigation.PushAsync(new SwipeResult(chosenMovies, userId));
+
+        }
+
         // Método OnCardTapped (quando clica):
         private async void OnCardTapped(object sender, EventArgs e)
         {
@@ -142,7 +268,7 @@ namespace LumeClient.Views
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao criar popup: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Erro", "Falha ao criar popup: " + ex.Message, "OK");
+                await DisplayAlert("Erro", "Falha ao criar popup: " + ex.Message, "OK");
                 return;
             }
 
@@ -179,58 +305,106 @@ namespace LumeClient.Views
 
                     if (finalDy < -75)
                     {
-                        //DisplayAlert("Assistido", $"{MovieTitle.Text} marcado como assistido.", "OK");
-                        WatchedMovies.Add(Movies[currentIndex].Title);
-                        await CardFrame.TranslateTo(0, -parentHeight, 250, Easing.CubicOut);
+                        await WachedMovie(Movies[currentIndex].Id, parentHeight);
                     }
-                    else if (finalDx > 50)
+                    if (finalDx > 50)
                     {
-                        WishlistedMovies.Add(Movies[currentIndex].Title);
-                        //DisplayAlert("Like", $"{MovieTitle.Text} adicionado aos favoritos!", "OK");
-                        await CardFrame.TranslateTo(parentWidth, 0, 250, Easing.CubicOut);
+                        await LikeMovie(Movies[currentIndex].Id, parentWidth);
                     }
                     else if (finalDx < -50)
                     {
-                        RefusedMovies.Add(Movies[currentIndex].Title);
-                        //DisplayAlert("Dislike", $"{MovieTitle.Text} descartado.", "OK");
-                        await CardFrame.TranslateTo(-parentWidth, 0, 250, Easing.CubicOut);
+                        await DislikeMovie(Movies[currentIndex].Id, parentWidth);
                     }
                     else
                     {
                         await CardFrame.TranslateTo(0, 0, 150, Easing.Linear);
                     }
 
-                    // Reset
-                    CardFrame.TranslationX = startX;
-                    CardFrame.TranslationY = startY;
-                    CardFrame.Rotation = 0;
-                    CardFrame.Opacity = 1;
-
-                    // Se a animação foi de saída (dx>50, dx<-50 ou dy<-75), avançar para próximo filme
-                    if (finalDy < -75 || finalDx > 50 || finalDx < -50)
-                    {
-                        currentIndex++;
-                        CarregarFilme();
-                    }
-
-                    //CarregarFilme();
+                    ResetCardPosition();
                     break;
             }
         }
 
-        private void OnConfigClicked(object sender, EventArgs e)
+        private async Task LikeMovie(int movieId, double parentWidth)
         {
-            // Navegar para configura��es
+            WishlistedMovieIds.Add(movieId);
+            await CardFrame.TranslateTo(parentWidth, 0, 250, Easing.CubicOut);
+            currentIndex++;
+            await CarregarFilme();
         }
 
-        private void OnBellClicked(object sender, EventArgs e)
+        private async Task DislikeMovie(int movieId, double parentWidth)
         {
-            // Notifica��es
+            RefusedMovieIds.Add(movieId);
+            await CardFrame.TranslateTo(-parentWidth, 0, 250, Easing.CubicOut);
+            currentIndex++;
+            await CarregarFilme();
+        }
+        private async Task WachedMovie(int movieId, double parentHeight)
+        {
+            WatchedMovieIds.Add(movieId);
+            await CardFrame.TranslateTo(0, -parentHeight, 250, Easing.CubicOut);
+            currentIndex++;
+            await CarregarFilme();
         }
 
-        private void OnFavClicked(object sender, EventArgs e)
+        private async void OnLikeClicked(object sender, EventArgs e)
         {
-            // Futuro: Navegar para tela de favoritos
+            double parentWidth = ((VisualElement)CardFrame.Parent).Width;
+            await LikeMovie(Movies[currentIndex].Id, parentWidth);
+            ResetCardPosition();
+        }
+
+        private async void OnDislikeClicked(object sender, EventArgs e)
+        {
+            double parentWidth = ((VisualElement)CardFrame.Parent).Width;
+            await DislikeMovie(Movies[currentIndex].Id, parentWidth);
+            ResetCardPosition();
+        }
+        private async void OnWatchedClicked(object sender, EventArgs e)
+        {
+            double parentHeight = ((VisualElement)CardFrame.Parent).Height;
+            await WachedMovie(Movies[currentIndex].Id, parentHeight);
+            ResetCardPosition();
+        }
+
+        private void ResetCardPosition()
+        {
+            CardFrame.TranslationX = 0;
+            CardFrame.TranslationY = 0;
+            CardFrame.Rotation = 0;
+            CardFrame.Opacity = 1;
+        }
+
+        private async Task<string> FindMyId(string jwt)
+        {
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", jwt);
+
+                var resp = await _httpClient.GetAsync(APIConfig.MyIdEndpoint);
+                if (!resp.IsSuccessStatusCode)
+                {
+                    var msg = await resp.Content.ReadAsStringAsync();
+                    await DisplayAlert("Erro", $"Falha ao buscar login: {resp.StatusCode}\n{msg}", "OK");
+                    return null;
+                }
+                var respJson = await resp.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var idResp = JsonSerializer.Deserialize<FindMyIdDTO>(respJson, options);
+                return idResp.Id;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", $"Exceção ao encontrar usuário: {ex.Message}", "OK");
+                return null;
+            }
+            finally
+            {
+                // Remova o header para não afetar outras requisições
+                _httpClient.DefaultRequestHeaders.Authorization = null;
+            }
         }
     }
 }

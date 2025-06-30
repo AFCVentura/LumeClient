@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:LumeClient"
+             xmlns:views="clr-namespace:LumeClient.Views"
              x:Class="LumeClient.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -9,6 +10,18 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!-- Registrar os componentes header/footer -->
+            <ControlTemplate x:Key="PageWithHeaderFooter">
+                <Grid RowDefinitions="Auto, *, Auto">
+                    <!-- HeaderView: binding ao BindingContext da página para HeaderTitle -->
+                    <views:Header Grid.Row="0" x:Name="HeaderControl" />
+                    <!-- Conteúdo substituível -->
+                    <ContentPresenter Grid.Row="1" />
+                    <!-- FooterView fixo -->
+                    <views:Footer Grid.Row="2" x:Name="FooterControl" />
+                </Grid>
+            </ControlTemplate>
         </ResourceDictionary>
     </Application.Resources>
+    
 </Application>

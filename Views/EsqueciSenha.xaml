@@ -9,30 +9,48 @@ NavigationPage.HasNavigationBar="False"
 NavigationPage.HasBackButton="False"
              BackgroundColor="White">
 
-    <VerticalStackLayout Padding="30" Spacing="20">
+    <ScrollView>
+        <Grid Padding="10">
+            <StackLayout VerticalOptions="Center" Spacing="8">
 
-        <Image Source="lume_preto.png" HeightRequest="80" HorizontalOptions="Center"/>
+                <Image Source="lume_branco.png" HeightRequest="270" HorizontalOptions="Center"/>
 
-        <Label Text="Esqueceu a senha?" 
-               FontSize="24" 
-               TextColor="Yellow" 
-               HorizontalOptions="Center"/>
+                <Label 
+                    Text="Esqueceu a senha?" 
+                    FontSize="24" 
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource Tertiary}" 
+                    HorizontalOptions="Center"/>
 
-        <Entry x:Name="emailEntry"
-               Placeholder="Digite seu e-mail"
-               PlaceholderColor="Gray"
-               TextColor="White"
-               BackgroundColor="#1C1C1C"/>
+                <!-- Campo do Email -->
+                <Border Stroke="#FBD206"
+                    StrokeThickness="2"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 8">
+                    
+                    <Entry x:Name="emailEntry"
+                        Placeholder="Digite seu e-mail"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        PlaceholderColor="Gray"
+                        HeightRequest="50"/>
+                    
+                </Border>
 
-        <Button Text="Continuar"
-                BackgroundColor="Yellow"
-                TextColor="Black"
-                Clicked="OnContinuarClicked"/>
-
-        <Button Text="Voltar"
-                BackgroundColor="Transparent"
-                TextColor="Yellow"
-                Clicked="OnVoltarClicked"/>
-
-    </VerticalStackLayout>
+                <Button 
+                    x:Name="btnContinuar"
+                    Text="Continuar"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="Black"
+                    Clicked="OnContinuarClicked"/>
+                
+                <Button 
+                    x:Name="btnVoltar"
+                    Text="Voltar"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    Clicked="OnVoltarClicked"/>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

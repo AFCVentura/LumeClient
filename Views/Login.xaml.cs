@@ -13,11 +13,30 @@ public partial class Login : ContentPage
         InitializeComponent();
     }
 
+    protected override bool OnBackButtonPressed()
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            bool sair = await DisplayAlert("Sair do Lume?",
+                "Deseja fechar o aplicativo?",
+                "Sim", "Cancelar");
+
+            if (sair)
+            {
+#if ANDROID
+            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+#endif
+            }
+        });
+
+        return true; // cancela o comportamento padrão
+    }
+
     private async void OnLoginClicked(object sender, EventArgs e)
     {
         try
         {
-            string emailDigitado = txt_email.Text;
+            string emailDigitado = txt_email.Text.Trim();
             string senhaDigitada = txt_senha.Text;
 
             var loginData = new

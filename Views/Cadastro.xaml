@@ -29,13 +29,21 @@
                     Margin="0,0,0,10"/>
 
                 <!-- Campo de Email -->
-                <Border Stroke="#FBD206" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8">
-                    <Entry x:Name="txt_email"
-                   Placeholder="Email"
-                   BackgroundColor="Transparent"
-                   TextColor="Black"
-                   PlaceholderColor="Gray"
-                   HeightRequest="50"/>
+                <Border 
+                    Stroke="#FBD206" 
+                    StrokeThickness="2" 
+                    BackgroundColor="White" 
+                    StrokeShape="RoundRectangle 8">
+                    
+                    <Entry 
+                        x:Name="txt_email"
+                        Keyboard="Email"
+                        Placeholder="Email"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        PlaceholderColor="Gray"
+                        HeightRequest="50"/>
+                    
                 </Border>
 
                 <!-- Campo de Senha -->

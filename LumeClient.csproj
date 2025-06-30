@@ -95,16 +95,22 @@
 	  <Compile Update="Views\InicioCadastro.xaml.cs">
 	    <DependentUpon>InicioCadastro.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\PerguntasGerais.xaml.cs">
+	    <DependentUpon>PerguntasGerais.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Swipe.xaml.cs">
 	    <DependentUpon>Swipe.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\HumorDia.xaml.cs">
-	    <DependentUpon>HumorDia.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\EsqueciSenha.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Footer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Header.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\InicioCadastro.xaml">
@@ -116,10 +122,10 @@
 	  <MauiXaml Update="Views\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MenuInferior.xaml">
+	  <MauiXaml Update="Views\PerguntasDia.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Perguntas.xaml">
+	  <MauiXaml Update="Views\PerguntasGerais.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RedefinirSenha.xaml">
@@ -134,7 +140,7 @@
 	  <MauiXaml Update="Views\Config.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\HumorDia.xaml">
+	  <MauiXaml Update="Views\SwipeResult.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SwipeTutorial.xaml">

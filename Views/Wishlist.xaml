@@ -2,11 +2,134 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.Wishlist"
+             xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             shell:Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
+             BackgroundColor="White"
+             ControlTemplate="{StaticResource PageWithHeaderFooter}"
              Title="Wishlist">
-    <VerticalStackLayout>
+    <Grid RowDefinitions="Auto, *, Auto" Padding="10">
+        <!-- Cabeçalho -->
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            x:Name="lblHeader"
+            Grid.Row="0"
+            Text="Wishlist"
+            FontSize="20"
+            FontAttributes="Bold"
+            TextColor="{StaticResource Primary}"
+            HorizontalOptions="Center"
+            Margin="0,10"/>
+
+        <!-- Lista de filmes -->
+        <CollectionView
+            x:Name="WishlistCollection"
+            Grid.Row="1"
+            ItemsLayout="VerticalList"
+            SelectionMode="None"  
+            >
+            <CollectionView.EmptyView>
+                <!-- Quando não houver itens -->
+                <StackLayout 
+                    HorizontalOptions="Center" 
+                    Spacing="10">
+                    <Image 
+                        Source="{FontImageSource FontFamily=MaterialIcons, Glyph=&#xe87d;, Size=48, Color={StaticResource Primary}}"
+                        HeightRequest="48" WidthRequest="48"/>
+                    <Label 
+                        Text="Você ainda não adicionou filmes à sua wishlist."
+                        FontSize="16"
+                        TextColor="Black"
+                        HorizontalTextAlignment="Center"/>
+                    <Label 
+                        Text="Explore recomendações e deslize para a direita para adicioná-los aqui!"
+                        FontSize="14"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Center"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Cada item é uma Frame com GestureRecognizer e Grid interno -->
+                    <Frame 
+                        CornerRadius="8"
+                        Padding="0"
+                        Margin="5"
+                        HasShadow="True"
+                        BackgroundColor="Transparent">
+                        <Grid ColumnDefinitions="Auto, *, Auto" HeightRequest="100">
+                            <!-- 1) Miniatura -->
+                            <Image 
+                                Source="{Binding PosterFullUrl}" 
+                                Aspect="AspectFill"
+                                WidthRequest="70"
+                                HeightRequest="100"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start"
+                                />
+
+                            <!-- 2) Título e rating -->
+                            <StackLayout 
+                                Grid.Column="1" 
+                                Padding="10,0"
+                                VerticalOptions="Center">
+                                <Label 
+                                    Text="{Binding Title}" 
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    LineBreakMode="TailTruncation"/>
+                                <Label 
+                                    Text="{Binding RatingText}" 
+                                    FontSize="14"
+                                    TextColor="Gray"/>
+                            </StackLayout>
+
+                            <!-- 3) Botões remover -->
+                            <StackLayout 
+                                Grid.Column="2" 
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                Padding="0,0,10,0">
+                                <!-- Gostei (remove) -->
+                                <ImageButton
+                                    Source="{FontImageSource FontFamily=MaterialIcons, Glyph=&#xe5ca;, Size=24, Color=Green}"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference WishlistCollection}}"
+                                    CommandParameter="{Binding Id}"
+                                    />
+                                <!-- Não gostei (também remove) -->
+                                <ImageButton
+                                    Source="{FontImageSource FontFamily=MaterialIcons, Glyph=&#xe5cd;, Size=24, Color=Red}"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference WishlistCollection}}"
+                                    CommandParameter="{Binding Id}"
+                                    />
+                            </StackLayout>
+                        </Grid>
+                        <!-- TapGesture para abrir detalhes -->
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Tapped="OnItemTapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Botão fixo abaixo -->
+        <Button 
+            Grid.Row="2"
+            Text="Voltar à Página Inicial"
+            BackgroundColor="{StaticResource Primary}"
+            TextColor="{StaticResource Tertiary}"
+            FontAttributes="Bold"
+            HeightRequest="50"
+            CornerRadius="8"
+            Clicked="OnGoMainPageClicked"
+            Margin="0,10,0,0"/>
+    </Grid>
 </ContentPage>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LumeClient.Views.Footer">
+    <!-- MENU INFERIOR -->
+    <Grid 
+        Grid.Row="3" 
+        Padding="30,10" 
+        BackgroundColor="Black"
+    >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Engrenagem -->
+        <ImageButton 
+            x:Name="settingsButton"
+            HeightRequest="60" 
+            WidthRequest="60"
+            HorizontalOptions="Center" 
+            Grid.Column="0">
+            <ImageButton.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Tapped="OnSettingsTapped" 
+                    NumberOfTapsRequired="1" />
+            </ImageButton.GestureRecognizers>
+
+            <ImageButton.Source>
+                <FontImageSource 
+                    FontFamily="MaterialIcons"
+                    Glyph="&#xe8b8;"
+                    Size="40"
+                    Color="{StaticResource Primary}"/>
+            </ImageButton.Source>
+        </ImageButton>
+
+        <!-- Lâmpada -->
+        <ImageButton 
+            x:Name="playButton"
+            HeightRequest="60"
+            WidthRequest="60"
+            HorizontalOptions="Center" 
+            BackgroundColor="{StaticResource Primary}"
+            Grid.Column="1"
+            CornerRadius="30">
+            <ImageButton.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Tapped="OnPlayTapped" 
+                    NumberOfTapsRequired="1" />
+            </ImageButton.GestureRecognizers>
+
+            <ImageButton.Source>
+                <FontImageSource 
+                    FontFamily="MaterialIcons"
+                    Glyph="&#xe42e;"
+                    Size="40"
+                    Color="{StaticResource Tertiary}"
+                />
+            </ImageButton.Source>
+        </ImageButton>
+
+        <!-- Coração -->
+        <ImageButton 
+            x:Name="wishlistButton"
+            HeightRequest="60"
+            WidthRequest="60"
+            HorizontalOptions="Center" 
+            Grid.Column="2">
+            <ImageButton.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Tapped="OnWishlistTapped" 
+                    NumberOfTapsRequired="1" />
+            </ImageButton.GestureRecognizers>
+
+            <ImageButton.Source>
+                <FontImageSource 
+                    FontFamily="MaterialIcons"
+                    Glyph="&#xe87d;"
+                    Size="40"
+                    Color="{StaticResource Primary}"/>
+            </ImageButton.Source>
+        </ImageButton>
+    </Grid>
+</ContentView>

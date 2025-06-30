@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:LumeClient.Views"
-    Shell.FlyoutBehavior="Flyout"
+    FlyoutBehavior="Disabled"
     Title="LumeClient">
 
     <!-- Tela de Login -->
@@ -21,9 +21,9 @@
 
     <!-- Tela de Perguntas iniciais -->
     <ShellContent
-        Title="Perguntas"
-        ContentTemplate="{DataTemplate local:Perguntas}"
-        Route="Perguntas"/>
+        Title="Perguntas Gerais"
+        ContentTemplate="{DataTemplate local:PerguntasGerais}"
+        Route="PerguntasGerais"/>
 
     <!-- Tela de Tutorial de Swipe -->
     <ShellContent
@@ -37,18 +37,23 @@
         ContentTemplate="{DataTemplate local:Swipe}"
         Route="Swipe"/>
 
-    <!-- Tela de Humor do Dia -->
-    <ShellContent
-        Title="Humor do Dia"
-        ContentTemplate="{DataTemplate local:HumorDia}"
-        Route="HumorDia"/>
-
-
     <!-- Tela Principal -->
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage"/>
+
+    <!-- Tela de Perguntas do dia a dia -->
+    <ShellContent
+        Title="PerguntasDia"
+        ContentTemplate="{DataTemplate local:PerguntasDia}"
+        Route="PerguntasDia"/>
+
+    <!-- Tela de Wishlist -->
+    <ShellContent
+        Title="Wishlist"
+        ContentTemplate="{DataTemplate local:Wishlist}"
+        Route="Wishlist"/>
 
     <!-- Tela de Configurações -->
     <ShellContent

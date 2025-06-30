@@ -29,6 +29,30 @@ namespace LumeClient.Views
             this.chosenMovieIds = chosenMovieIds;
         }
 
+        private bool _isBackConfirmationOpen = false;
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (_isBackConfirmationOpen)
+                return true;
+
+            _isBackConfirmationOpen = true;
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                bool confirmar = await DisplayAlert("Atenção",
+                    "Você irá perder todo o progresso. Deseja realmente voltar ao login?",
+                    "Sim", "Cancelar");
+
+                if (confirmar)
+                    await Navigation.PushAsync(new Login());
+
+                _isBackConfirmationOpen = false;
+            });
+
+            return true;
+        }
+
         private async void OnCadastroTap(object sender, EventArgs e)
         {
             btn_registro.IsEnabled = false;

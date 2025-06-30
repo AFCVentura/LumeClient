@@ -5,10 +5,9 @@ namespace LumeClient.Views
     public class TutorialPopup : Popup
     {
         private readonly List<string> messages;
-        private readonly List<string?> mediaFiles; // caminho relativo em Resources/Images, ou null
+        private readonly List<string?> mediaFiles;
         private int currentIndex = 0;
 
-        // Elementos visuais
         private readonly Label messageLabel;
         private readonly MediaElement mediaElement;
         private readonly Button backButton;
@@ -17,25 +16,12 @@ namespace LumeClient.Views
         public TutorialPopup(List<string> messages, List<string?> mediaFiles)
         {
             if (messages == null || mediaFiles == null || messages.Count != mediaFiles.Count)
-                throw new ArgumentException("messages e gifFiles devem ter mesmo tamanho.");
+                throw new ArgumentException("messages e mediaFiles devem ter mesmo tamanho.");
 
             this.messages = messages;
             this.mediaFiles = mediaFiles;
 
-            // Frame principal
-            var frame = new Frame
-            {
-                MaximumWidthRequest = 250,
-                MinimumHeightRequest = 300,
-                CornerRadius = 0,
-                BackgroundColor = Colors.White,
-                Padding = 12,
-                HasShadow = true,
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center
-            };
-
-            // Label de mensagem
+            // 1) Cria os elementos de UI
             messageLabel = new Label
             {
                 FontSize = 16,
@@ -43,7 +29,6 @@ namespace LumeClient.Views
                 HorizontalTextAlignment = TextAlignment.Center
             };
 
-            // Image para GIF (visível apenas se houver GIF nesta etapa)
             mediaElement = new MediaElement
             {
                 ShouldAutoPlay = true,
@@ -56,13 +41,11 @@ namespace LumeClient.Views
                 IsVisible = false
             };
 
-            // Botões
             backButton = new Button
             {
                 Text = "← Voltar",
                 IsEnabled = false,
                 BackgroundColor = Colors.Gray
-
             };
             backButton.Clicked += OnBackClicked;
 
@@ -73,42 +56,72 @@ namespace LumeClient.Views
             };
             nextButton.Clicked += OnNextClicked;
 
-            // Layout dos botões
+            // 2) Layout dos botões (sempre na base)
             var buttonLayout = new HorizontalStackLayout
             {
                 Spacing = 20,
                 HorizontalOptions = LayoutOptions.Center,
+                Padding = new Thickness(0, 8, 0, 0),
                 Children = { backButton, nextButton }
             };
 
-            // Conteúdo interno: empilha texto, GIF e botões
+            // 3) Conteúdo rolável (texto + mídia)
             var contentStack = new VerticalStackLayout
             {
                 Spacing = 12,
-                Children = { messageLabel, mediaElement, buttonLayout },
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Fill
+                Children = { messageLabel, mediaElement },
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.Center
             };
 
-            frame.Content = contentStack;
+            var scroll = new ScrollView
+            {
+                Content = contentStack,
+                VerticalOptions = LayoutOptions.Center
+            };
+
+            // 4) Grid com 2 linhas: scroll na linha 0 e botões na linha 1
+            var grid = new Grid
+            {
+                RowDefinitions = new RowDefinitionCollection
+                {
+                    new RowDefinition { Height = GridLength.Star },
+                    new RowDefinition { Height = GridLength.Auto }
+                }
+            };
+            grid.Add(scroll, 0, 0);
+            grid.Add(buttonLayout, 0, 1);
+
+            // 5) Frame principal
+            var frame = new Frame
+            {
+                WidthRequest = 250,
+                HeightRequest = 330,    
+                BackgroundColor = Colors.White,
+                Padding = 12,
+                HasShadow = true,
+                Content = grid,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center
+            };
+
             Content = frame;
 
-            // Inicializa com a primeira mensagem
+            // 6) Exibe a primeira mensagem
             UpdateContent();
         }
 
         private void UpdateContent()
         {
-            // Ajusta texto
+            // Texto
             messageLabel.Text = messages[currentIndex];
 
-            // Ajusta GIF
-            var mediaFile = mediaFiles[currentIndex];
-            if (!string.IsNullOrEmpty(mediaFile))
+            // GIF (se houver)
+            var file = mediaFiles[currentIndex];
+            if (!string.IsNullOrEmpty(file))
             {
-                mediaElement.Source = MediaSource.FromResource(mediaFile);
+                mediaElement.Source = MediaSource.FromResource(file);
                 mediaElement.IsVisible = true;
-
                 mediaElement.Stop();
                 mediaElement.Play();
             }
@@ -118,9 +131,11 @@ namespace LumeClient.Views
                 mediaElement.Stop();
             }
 
-            // Ajusta botões
-            backButton.IsEnabled = currentIndex > 0;
-            nextButton.Text = (currentIndex == messages.Count - 1) ? "Fechar" : "Próximo →";
+            // Botões
+            backButton.IsEnabled = (currentIndex > 0);
+            nextButton.Text = (currentIndex == messages.Count - 1)
+                ? "Fechar"
+                : "Próximo →";
         }
 
         private void OnBackClicked(object sender, EventArgs e)
@@ -141,7 +156,6 @@ namespace LumeClient.Views
             }
             else
             {
-                // Último: fecha o popup
                 Close();
             }
         }

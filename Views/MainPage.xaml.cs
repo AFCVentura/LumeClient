@@ -13,9 +13,29 @@ namespace LumeClient.Views
         private List<MovieItemDTO> recommended = new();
         private Dictionary<int, MovieDetailsDTO> detailsCache = new();
 
+
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                bool sair = await DisplayAlert("Sair do Lume?",
+                    "Deseja fechar o aplicativo?",
+                    "Sim", "Cancelar");
+
+                if (sair)
+                {
+#if ANDROID
+            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+#endif
+                }
+            });
+
+            return true; // cancela o comportamento padrão
         }
 
         protected override async void OnAppearing()
@@ -94,10 +114,11 @@ namespace LumeClient.Views
                 }).ToList();
 
                 RecommendationsCollection.ItemsSource = recommended;
+
+                await ShowMovieDetailsAsync(recommended.FirstOrDefault()?.Id ?? 0);
             }
             catch (Exception ex)
-            {
-                await DisplayAlert("Erro", $"Ocorreu erro ao carregar: {ex.Message}", "OK");
+            { 
             }
             finally
             {
@@ -234,8 +255,8 @@ namespace LumeClient.Views
             // Produção: orçamento e receita
             if (m.Budget > 0 || m.Revenue > 0)
             {
-                string buf = m.Budget > 0 ? $"Orçamento: ${m.Budget:N0}" : "";
-                string rev = m.Revenue > 0 ? $"Receita: ${m.Revenue:N0}" : "";
+                string buf = m.Budget > 0 ? $"Orçamento: ${m.Budget:N0}" : "Orçamento não disponível.";
+                string rev = m.Revenue > 0 ? $"Receita: ${m.Revenue:N0}" : "Receita não disponível.";
                 DetailsContainer.Children.Add(new Label
                 {
                     Text = string.Join(" | ", new[] { buf, rev }.Where(s => !string.IsNullOrEmpty(s))),
@@ -302,21 +323,6 @@ namespace LumeClient.Views
                 });
             }
             // etc conforme necessidade
-        }
-
-        private async void OnSettingsTapped(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new Config());
-        }
-
-        private async void OnPlayTapped(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new Perguntas());
-        }
-
-        private async void OnWishlistTapped(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new Wishlist());
         }
     }
 

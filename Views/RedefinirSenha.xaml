@@ -7,46 +7,82 @@ NavigationPage.HasNavigationBar="False"
 NavigationPage.HasBackButton="False"
              x:Class="LumeClient.Views.RedefinirSenha"
              Title="RedefinirSenha"
-             BackgroundColor="Black">
+             BackgroundColor="White">
+    <ScrollView>
+        <Grid Padding="10">
+            <StackLayout VerticalOptions="Center" Spacing="8">
 
-    <VerticalStackLayout Padding="30" Spacing="20">
+                <Image Source="lume_branco.png" HeightRequest="270" HorizontalOptions="Center"/>
 
-        <Image Source="lume_preto.png" HeightRequest="80" HorizontalOptions="Center"/>
+                <Label 
+                    Text="Redefinir Senha" 
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource Tertiary}" 
+                    HorizontalOptions="Center"/>
 
-        <Label Text="Redefinir Senha" 
-               FontSize="24" 
-               TextColor="Yellow" 
-               HorizontalOptions="Center"/>
+                <!-- Campo do Código de Verificação -->
+                <Border 
+                    Stroke="#FBD206"
+                    StrokeThickness="2"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 8">
+                    <Entry
+                        x:Name="codigoEntry"
+                        Placeholder="Código de Vericação"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        PlaceholderColor="Gray"
+                        HeightRequest="50"/>
+                </Border>
 
-        <Entry x:Name="codigoEntry"
-               Placeholder="Código de verificação"
-               PlaceholderColor="Gray"
-               TextColor="White"
-               BackgroundColor="#1C1C1C"/>
-        
-        <Entry x:Name="novaSenhaEntry"
-               Placeholder="Nova senha"
-               IsPassword="True"
-               PlaceholderColor="Gray"
-               TextColor="White"
-               BackgroundColor="#1C1C1C"/>
+                <!-- Campo de Senha -->
+                <Border 
+                    Stroke="#FBD206"
+                    StrokeThickness="2"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 8">
+                    <Entry 
+                        x:Name="novaSenhaEntry"
+                        IsPassword="true"
+                        Placeholder="Nova Senha"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        PlaceholderColor="Gray"
+                        HeightRequest="50"/>
+                </Border>
 
-        <Entry x:Name="confirmarSenhaEntry"
-               Placeholder="Confirmar nova senha"
-               IsPassword="True"
-               PlaceholderColor="Gray"
-               TextColor="White"
-               BackgroundColor="#1C1C1C"/>
+                <!-- Campo de Confirmação da Senha -->
+                <Border 
+                    Stroke="#FBD206"
+                    StrokeThickness="2"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 8">
+                    <Entry 
+                        x:Name="confirmarSenhaEntry"
+                        IsPassword="true"
+                        Placeholder="Confirmar Nova Senha"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        PlaceholderColor="Gray"
+                        HeightRequest="50"/>
+                </Border>
 
-        <Button Text="Continuar"
-                BackgroundColor="Yellow"
-                TextColor="Black"
-                Clicked="OnContinuarClicked"/>
+                <Button 
+                    x:Name="btnContinuar"
+                    Text="Continuar"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="Black"
+                    Clicked="OnContinuarClicked"/>
 
-        <Button Text="Voltar"
-                BackgroundColor="Transparent"
-                TextColor="Yellow"
-                Clicked="OnVoltarClicked"/>
+                <Button 
+                    x:Name="btnVoltar"
+                    Text="Voltar"
+                    BackgroundColor="Gray"
+                    TextColor="Black"
+                    Clicked="OnVoltarClicked"/>
 
-    </VerticalStackLayout>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>
