@@ -22,15 +22,15 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
                 return true;
             }
 
-            private async void OnAlterarNomeClicked(object sender, EventArgs e)
-            {
-                await DisplayAlert("Alterar Nome", "Funcionalidade em desenvolvimento", "OK");
-            }
+        private async void OnAlterarNomeClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//AlterarNome");
+        }
 
-            private async void OnAlterarSenhaClicked(object sender, EventArgs e)
-            {
-                await DisplayAlert("Alterar Senha", "Funcionalidade em desenvolvimento", "OK");
-            }
+        private async void OnAlterarSenhaClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//AlterarSenha");
+        }
 
             private async void OnExcluirContaClicked(object sender, EventArgs e)
             {
@@ -96,16 +96,17 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
                             await DisplayAlert("Erro", $"Falha ao fazer logout: {erro}", "OK");
                         }
 
-                    }
                 }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Erro", $"Falha ao fazer logout", "OK");
-                } 
-                finally
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = null;
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exceção: {ex.Message}");
+                await DisplayAlert("Erro", $"Falha ao fazer logout", "OK");
+            } 
+            finally
+            {
+                httpClient.DefaultRequestHeaders.Authorization = null;
+            }
 
             }
 
