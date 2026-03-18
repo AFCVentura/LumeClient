@@ -13,11 +13,16 @@ namespace LumeClient.Views
         public RedefinirSenha(string email)
         {
             InitializeComponent();
+            btnContinuar.IsEnabled = true;
+            btnVoltar.IsEnabled = true;
             _email = email;
         }
 
         private async void OnContinuarClicked(object sender, EventArgs e)
         {
+            btnContinuar.IsEnabled = false; 
+            btnVoltar.IsEnabled = false;
+
             string codigo = codigoEntry.Text;
             string novaSenha = novaSenhaEntry.Text;
             string confirmarSenha = confirmarSenhaEntry.Text;
@@ -25,18 +30,24 @@ namespace LumeClient.Views
             if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(novaSenha) || string.IsNullOrEmpty(confirmarSenha))
             {
                 await DisplayAlert("Erro", "Por favor, preencha todos os campos.", "OK");
+                btnContinuar.IsEnabled = true;
+                btnVoltar.IsEnabled = true;
                 return;
             }
 
             if (novaSenha != confirmarSenha)
             {
                 await DisplayAlert("Erro", "As senhas n�o coincidem.", "OK");
+                btnContinuar.IsEnabled = true;
+                btnVoltar.IsEnabled = true;
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(_email))
             {
-                await DisplayAlert("Erro", "E-mail do usu�rio n�o encontrado. Tente novamente.", "OK");
+                await DisplayAlert("Erro", "E-mail do usuário não encontrado. Tente novamente.", "OK");
+                btnContinuar.IsEnabled = true;
+                btnVoltar.IsEnabled = true;
                 return;
             }
 
@@ -55,16 +66,20 @@ namespace LumeClient.Views
             if (response.IsSuccessStatusCode)
             {
                 await DisplayAlert("Sucesso", "Senha redefinida com sucesso!", "OK");
-                await Shell.Current.GoToAsync("//Login");
+                await Navigation.PushAsync(new Login());
             }
             else
             {
                 var erro = await response.Content.ReadAsStringAsync();
-                await DisplayAlert("Erro", "N�o foi poss�vel redefinir a senha.\n" + erro, "OK");
+                await DisplayAlert("Erro", "Não foi possível redefinir a senha.\n" + erro, "OK");
+                btnContinuar.IsEnabled = true;
+                btnVoltar.IsEnabled = true;
             }
         }
         private async void OnVoltarClicked(object sender, EventArgs e)
         {
+            btnContinuar.IsEnabled = false;
+            btnVoltar.IsEnabled = false;
             await Navigation.PopAsync();
         }
 

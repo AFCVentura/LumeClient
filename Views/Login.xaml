@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LumeClient.Views.Login"
              xmlns:shell="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
-             shell:Shell.NavBarIsVisible="False"
+shell:Shell.NavBarIsVisible="False"
+NavigationPage.HasNavigationBar="False"
+NavigationPage.HasBackButton="False"
              BackgroundColor="White"
              Title="Login"
-             NavigationPage.HasBackButton="False"
-             NavigationPage.HasNavigationBar="False">
+             >
     <ScrollView>
         <Grid Padding="10">
             <StackLayout VerticalOptions="Center" Spacing="8">
@@ -30,12 +31,14 @@
 
                 <!-- Campo de Email -->
                 <Border Stroke="#FBD206" StrokeThickness="2" BackgroundColor="White" StrokeShape="RoundRectangle 8">
-                    <Entry x:Name="txt_email"
-                       Placeholder="Email"
-                       BackgroundColor="Transparent"
-                       TextColor="Black"
-                       PlaceholderColor="Gray"
-                       HeightRequest="50"/>
+                    <Entry 
+                        x:Name="txt_email"
+                        Keyboard="Email"
+                        Placeholder="Email"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        PlaceholderColor="Gray"
+                        HeightRequest="50"/>
                 </Border>
 
                 <!-- Campo de Senha -->

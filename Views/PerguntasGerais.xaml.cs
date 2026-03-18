@@ -12,7 +12,7 @@ using static LumeClient.Views.InicioCadastro;
 
 namespace LumeClient.Views
 {
-    public partial class Perguntas : ContentPage
+    public partial class PerguntasGerais : ContentPage
     {
         // =====================================================
         // 1) Campos de estado
@@ -35,7 +35,7 @@ namespace LumeClient.Views
         // ==============================================
         // 2) Construtor / OnAppearing
         // ==============================================
-        public Perguntas()
+        public PerguntasGerais()
         {
             InitializeComponent();
 
@@ -47,6 +47,37 @@ namespace LumeClient.Views
 
             // Inicia carregamento das perguntas da API
             _ = CarregarPerguntasDaApi();
+        }
+
+        private bool _isBackConfirmationOpen = false;
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (_isBackConfirmationOpen)
+                return true;
+
+            _isBackConfirmationOpen = true;
+            if (!inThemePhase && extraIndex == 0)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    bool confirmar = await DisplayAlert("Atenção",
+                        "Você irá perder todo o progresso. Deseja realmente voltar ao login?",
+                        "Sim", "Cancelar");
+
+                    if (confirmar)
+                        await Navigation.PushAsync(new Login());
+
+                    _isBackConfirmationOpen = false;
+                });
+            }
+            else
+            {
+                _isBackConfirmationOpen = false;
+                ReturnQuestion();
+            }
+
+            return true;
         }
 
         // ==============================================
@@ -142,6 +173,15 @@ namespace LumeClient.Views
                 var questExtra = extraQuestions[extraIndex];
                 PerguntaLabel.Text = questExtra.Text;
 
+                if (questExtra.IsMultipleChoice)
+                {
+                    IsMultipleLabel.Text = "Você pode selecionar mais de uma alternativa";
+                }
+                else
+                {
+                    IsMultipleLabel.Text = "";
+                }
+
                 // Define se é Single ou Multiple
                 OpcoesCollection.SelectionMode = questExtra.IsMultipleChoice
                     ? SelectionMode.Multiple
@@ -169,6 +209,15 @@ namespace LumeClient.Views
 
                 var questTema = themeQuestions[themeIndex];
                 PerguntaLabel.Text = questTema.Text;
+
+                if (questTema.IsMultipleChoice)
+                {
+                    IsMultipleLabel.Text = "Você pode selecionar mais de uma alternativa";
+                }
+                else
+                {
+                    IsMultipleLabel.Text = "";
+                }
 
                 // Define se é Single ou Multiple
                 OpcoesCollection.SelectionMode = questTema.IsMultipleChoice
@@ -284,6 +333,11 @@ namespace LumeClient.Views
         // ==============================================
         private void OnBackClicked(object sender, EventArgs e)
         {
+            ReturnQuestion();
+        }
+        
+        private async void ReturnQuestion()
+        {
             try
             {
                 // ---------- Fase Extras ----------
@@ -364,7 +418,6 @@ namespace LumeClient.Views
             {
                 DisplayAlert("Exceção", ex.Message, "Ok");
             }
-            
         }
 
         // ==============================================

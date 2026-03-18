@@ -40,11 +40,9 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Resize="True" BaseSize="512,512" />
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#000000" />
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
@@ -71,6 +69,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\AppIcon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Remove="Views\Tela_Cadastro.xaml" />
 	</ItemGroup>
 
@@ -93,28 +95,43 @@
 	  <Compile Update="Views\InicioCadastro.xaml.cs">
 	    <DependentUpon>InicioCadastro.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\PerguntasGerais.xaml.cs">
+	    <DependentUpon>PerguntasGerais.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Swipe.xaml.cs">
 	    <DependentUpon>Swipe.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\HumorDia.xaml.cs">
-	    <DependentUpon>HumorDia.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\AlterarNome.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AlterarSenha.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\EsqueciSenha.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Footer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Header.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\InicioCadastro.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Loading.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MenuInferior.xaml">
+	  <MauiXaml Update="Views\PerguntasDia.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Perguntas.xaml">
+	  <MauiXaml Update="Views\PerguntasGerais.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RedefinirSenha.xaml">
@@ -129,12 +146,16 @@
 	  <MauiXaml Update="Views\Config.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\HumorDia.xaml">
+	  <MauiXaml Update="Views\SwipeResult.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SwipeTutorial.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Wishlist.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
+
 
 </Project>

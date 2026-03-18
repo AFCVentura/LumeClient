@@ -9,7 +9,8 @@ public partial class InicioCadastro : ContentPage
     {
         PrePerguntas,
         PreFilmes,
-        PreCadastro
+        PreCadastro,
+        PrePerguntasDia
     }
 
     List<int>? ExtraAnswerIds = null;
@@ -47,9 +48,63 @@ public partial class InicioCadastro : ContentPage
                 "Você foi muito bem! Agora sim, pra finalizar, precisamos apenas que você preencha seu email e defina uma senha.",
             };
         }
-        
-        InitializeComponent();
+        else if (etapa == EtapasCadastroEnum.PrePerguntasDia)
+        {
+            Instrucoes = new List<string>()
+            {
+                "Agora sim você vai poder começar a jogar, faremos algumas perguntas rápidas e iremos recomendar alguns filmes com base nelas!",
+            };
+        }
+
+            InitializeComponent();
         txt_instrucoes.Text = Instrucoes[0];
+    }
+
+    private bool _isBackConfirmationOpen = false;
+
+    protected override bool OnBackButtonPressed()
+    {
+        if (_isBackConfirmationOpen)
+            return true;
+
+        _isBackConfirmationOpen = true;
+        if (InstrucoesIndex == 0 && Etapa != EtapasCadastroEnum.PrePerguntasDia)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                bool confirmar = await DisplayAlert("Atenção",
+                    "Você irá perder todo o progresso. Deseja realmente voltar ao login?",
+                    "Sim", "Cancelar");
+
+                if (confirmar)
+                    await Navigation.PushAsync(new Login());
+
+                _isBackConfirmationOpen = false;
+            });
+        }
+        else if (InstrucoesIndex == 0 && Etapa == EtapasCadastroEnum.PrePerguntasDia)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                bool confirmar = await DisplayAlert("Atenção",
+                    "Você irá perder todo o progresso. Deseja realmente voltar à tela inicial?",
+                    "Sim", "Cancelar");
+
+                if (confirmar)
+                    await Navigation.PushAsync(new MainPage());
+
+                _isBackConfirmationOpen = false;
+            });
+        }
+        else
+        {
+            _isBackConfirmationOpen = false;
+
+            InstrucoesIndex -= 1;
+            txt_instrucoes.Text = Instrucoes[InstrucoesIndex];
+        }
+
+        return true;
     }
 
     private async void OnContinueClicked(object sender, EventArgs e)
@@ -65,7 +120,7 @@ public partial class InicioCadastro : ContentPage
             if (Etapa == EtapasCadastroEnum.PrePerguntas)
             {
                 // Navega para a próxima página de perguntas
-                await Navigation.PushAsync(new Perguntas());
+                await Navigation.PushAsync(new PerguntasGerais());
             }
             else if (Etapa == EtapasCadastroEnum.PreFilmes)
             {
@@ -76,6 +131,11 @@ public partial class InicioCadastro : ContentPage
             {
                 // Navega para a página de cadastro
                 await Navigation.PushAsync(new Cadastro(ExtraAnswerIds, ThemeAnswerIds, ChosenMovieIds));
+            }
+            else if (Etapa == EtapasCadastroEnum.PrePerguntasDia)
+            {
+                // navega para as perguntas do dia
+                await Navigation.PushAsync(new PerguntasDia());
             }
             
         }

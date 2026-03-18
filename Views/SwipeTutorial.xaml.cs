@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using LumeClient.Config;
 using LumeClient.DTOs.Movies;
-using LumeClient.DTOs.Questions;
 using System.Text.Json;
 using static LumeClient.Views.InicioCadastro;
 
@@ -70,6 +69,30 @@ public partial class SwipeTutorial : ContentPage
         await CarregarFilmesDaAPI();
     }
 
+    private bool _isBackConfirmationOpen = false;
+
+    protected override bool OnBackButtonPressed()
+    {
+        if (_isBackConfirmationOpen)
+            return true;
+
+        _isBackConfirmationOpen = true;
+
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            bool confirmar = await DisplayAlert("Atenção",
+                "Você irá perder todo o progresso. Deseja realmente voltar ao login?",
+                "Sim", "Cancelar");
+
+            if (confirmar)
+                await Navigation.PushAsync(new Login());
+
+            _isBackConfirmationOpen = false;
+        });
+
+        return true;
+    }
+
     // ==============================================
     // CarregarFilmesDaApi()
     // ==============================================
@@ -77,8 +100,13 @@ public partial class SwipeTutorial : ContentPage
     {
         try
         {
+
+
+            
             // Define a URL
             var url = APIConfig.FamousMoviesEndpoint;
+
+            
 
             // Faz a requisição HTTP
             var resp = await _httpClient.GetAsync(url);
@@ -113,7 +141,7 @@ public partial class SwipeTutorial : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Exceção", $"{ex.Message}\nExceção Interna:\n{ex.InnerException}", "OK");
-        }
+        } 
     }
 
     private void CarregarFilme()
@@ -244,4 +272,6 @@ public partial class SwipeTutorial : ContentPage
         CardFrame.Rotation = 0;
         CardFrame.Opacity = 1;
     }
+
+    
 }
