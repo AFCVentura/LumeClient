@@ -40,11 +40,9 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Resize="True" BaseSize="512,512" />
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#000000" />
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
@@ -57,18 +55,107 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Resources\Images\NovaPasta\**" />
+	  <Compile Remove="Resources\Images\NovaPasta\**" />
+	  <EmbeddedResource Remove="Resources\Images\NovaPasta\**" />
+	  <MauiCss Remove="Resources\Images\NovaPasta\**" />
+	  <MauiImage Remove="Resources\Images\NovaPasta\**" />
+	  <MauiXaml Remove="Resources\Images\NovaPasta\**" />
+	  <None Remove="Resources\Images\NovaPasta\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Views\Tela_Cadastro.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\AppIcon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\Tela_Cadastro.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="4.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Cadastro.xaml.cs">
+	    <DependentUpon>Cadastro.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Config.xaml.cs">
+	    <DependentUpon>Config.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\InicioCadastro.xaml.cs">
+	    <DependentUpon>InicioCadastro.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\PerguntasGerais.xaml.cs">
+	    <DependentUpon>PerguntasGerais.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Swipe.xaml.cs">
+	    <DependentUpon>Swipe.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AlterarNome.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AlterarSenha.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EsqueciSenha.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Footer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Header.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\InicioCadastro.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Loading.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Perguntas.xaml">
+	  <MauiXaml Update="Views\PerguntasDia.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PerguntasGerais.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RedefinirSenha.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Swipe.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cadastro.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Config.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SwipeResult.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SwipeTutorial.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Wishlist.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
 
 </Project>

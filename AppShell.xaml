@@ -4,12 +4,92 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:LumeClient.Views"
-    Shell.FlyoutBehavior="Disabled"
+    FlyoutBehavior="Disabled"
     Title="LumeClient">
 
+    <!-- Tela de Login -->
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:Login}"
+        Route="Login"/>
+
+    <!-- Tela de Início do Cadastro -->
+    <ShellContent
+        Title="Início do Cadastro"
+        ContentTemplate="{DataTemplate local:InicioCadastro}"
+        Route="InicioCadastro"/>
+
+    <!-- Tela de Perguntas iniciais -->
+    <ShellContent
+        Title="Perguntas Gerais"
+        ContentTemplate="{DataTemplate local:PerguntasGerais}"
+        Route="PerguntasGerais"/>
+
+    <!-- Tela de Tutorial de Swipe -->
+    <ShellContent
+        Title="SwipeTutorial"
+        ContentTemplate="{DataTemplate local:SwipeTutorial}"
+        Route="SwipeTutorial"/>
+
+    <!-- Página de Swipe (Tela principal de descobrir filmes"Tinder") -->
+    <ShellContent
+        Title="Swipe"
+        ContentTemplate="{DataTemplate local:Swipe}"
+        Route="Swipe"/>
+
+    <!-- Tela Principal -->
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"/>
+
+    <!-- Tela de Perguntas do dia a dia -->
+    <ShellContent
+        Title="PerguntasDia"
+        ContentTemplate="{DataTemplate local:PerguntasDia}"
+        Route="PerguntasDia"/>
+
+    <!-- Tela de Wishlist -->
+    <ShellContent
+        Title="Wishlist"
+        ContentTemplate="{DataTemplate local:Wishlist}"
+        Route="Wishlist"/>
+
+    <!-- Tela de Configurações -->
+    <ShellContent
+        Title="Configurações"
+        ContentTemplate="{DataTemplate local:Config}"
+        Route="Config"/>
+
+    <!-- Tela de Cadastro -->
+    <ShellContent
+        Title="Cadastro"
+        ContentTemplate="{DataTemplate local:Cadastro}"
+        Route="Cadastro"/>
+
+    <!-- Tela Esqueci a Senha -->
+    <ShellContent
+        Title="Esqueci a Senha"
+        ContentTemplate="{DataTemplate local:EsqueciSenha}"
+        Route="EsqueciSenha"/>
+
+    <!-- Tela Redefinir Senha -->
+    <ShellContent
+        Title="Redefinir Senha"
+        ContentTemplate="{DataTemplate local:RedefinirSenha}"
+        Route="RedefinirSenha"/>
+
+    <!-- Tela Alterar Nome -->
+    <ShellContent
+        Title="Alterar Nome"
+        ContentTemplate="{DataTemplate local:AlterarNome}"
+        Route="AlterarNome"/>
+
+    <!-- Tela Alterar Senha -->
+    <ShellContent
+        Title="Alterar Senha"
+        ContentTemplate="{DataTemplate local:AlterarSenha}"
+        Route="AlterarSenha"/>
 
 </Shell>
+
